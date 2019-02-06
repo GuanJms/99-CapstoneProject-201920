@@ -207,10 +207,10 @@ class ArmAndClaw(object):
           3. Resets the motor's position to 0.
         """
         self.raise_arm()
-        self.motor.turn_on(100)
         temp_position = self.motor.get_position()
+        self.motor.turn_on(100)
         while True:
-            if temp_position - self.motor.get_position() == 14.2:
+            if temp_position - self.motor.get_position() >= 14.2:
                 self.motor.turn_off()
                 self.motor.reset_position()
                 break
