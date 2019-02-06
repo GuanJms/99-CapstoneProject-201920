@@ -208,7 +208,7 @@ class ArmAndClaw(object):
         """
         self.raise_arm()
         temp_position = self.motor.get_position()
-        self.motor.turn_on(100)
+        self.motor.turn_on(-100)
         while True:
             if temp_position - self.motor.get_position() >= 14.2:
                 self.motor.turn_off()
@@ -231,7 +231,7 @@ class ArmAndClaw(object):
         Lowers the Arm until it is all the way down, i.e., position 0.
         The robot must have previously calibrated its Arm.
         """
-        self.motor.turn_on(100)
+        self.motor.turn_on(-100)
         while True:
             if self.motor.get_position() == 0:
                 self.motor.turn_off()
