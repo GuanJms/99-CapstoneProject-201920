@@ -207,15 +207,15 @@ class ArmAndClaw(object):
           3. Resets the motor's position to 0.
         """
         self.raise_arm()
-        temp_position = self.motor.get_position()
+        self.motor.reset_position()
         self.motor.turn_on(-100)
         while True:
-            if temp_position - self.motor.get_position() >= 14.2:
+            if abs(self.motor.get_position()) >= 14.2*360:
                 self.motor.turn_off()
                 self.motor.reset_position()
                 break
 
-    def move_arm_to_position(self, desired_arm_position):
+    def move_arm_to_position(self, desired_arm_position):  # TODO: FIX THIS CODE TO WORK IN BOTH DIRECTIONS
         """
         Move its Arm to the given position, where 0 means all the way DOWN.
         The robot must have previously calibrated its Arm.
