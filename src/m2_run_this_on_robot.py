@@ -1,7 +1,7 @@
 """
   Capstone Project.  Code to run on the EV3 robot (NOT on a laptop).
   Author:  Your professors (for the framework)
-    and PUT_YOUR_NAME_HERE.
+    and Rishav Khosla.
   Winter term, 2018-2019.
 """
 
