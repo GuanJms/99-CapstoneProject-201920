@@ -109,13 +109,20 @@ class DriveSystem(object):
 
         self.go_straight_for_seconds(seconds, speed)
 
-
     def go_straight_for_inches_using_encoder(self, inches, speed):
         """
         Makes the robot go straight (forward if speed > 0, else backward)
         at the given speed for the given number of inches,
         using the encoder (degrees traveled sensor) built into the motors.
         """
+        inches_per_degree = self.wheel_circumference / 360
+        self.go(speed, speed)
+        while True:
+            if abs(self.left_motor.get_position() * inches_per_degree) >= inches:
+                self.stop()
+                break
+        self.left_motor.reset_position()
+        self.right_motor.reset_position()
 
     # -------------------------------------------------------------------------
     # Methods for driving that use the color sensor.
