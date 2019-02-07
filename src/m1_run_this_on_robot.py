@@ -22,7 +22,7 @@ def main():
 def run_test_arm():
     robot = rosebot.RoseBot()
     robot.arm_and_claw.calibrate_arm()
-    robot.arm_and_claw.raise_arm()  cdd
+    robot.arm_and_claw.raise_arm()
 
 
 # -----------------------------------------------------------------------------
