@@ -219,16 +219,23 @@ class ArmAndClaw(object):
                 self.motor.reset_position()
                 break
 
-    def move_arm_to_position(self, desired_arm_position):  # TODO: FIX THIS CODE TO WORK IN BOTH DIRECTIONS
+    def move_arm_to_position(self, desired_arm_position):  # DONE: FIX THIS CODE TO WORK IN BOTH DIRECTIONS
         """
         Move its Arm to the given position, where 0 means all the way DOWN.
         The robot must have previously calibrated its Arm.
         """
-        self.motor.turn_on(100)
-        while True:
-            if self.motor.get_position() == desired_arm_position:
-                self.motor.turn_off()
-                break
+        if self.motor.get_position() - desired_arm_position <= 0:
+            self.motor.turn_on(100)
+            while True:
+                if self.motor.get_position() >= desired_arm_position:
+                    self.motor.turn_off()
+                    break
+        if self.motor.get_position() - desired_arm_position >= 0:
+            self.motor.turn_on(-100)
+            while True:
+                if self.motor.get_position() <= desired_arm_position:
+                    self.motor.turn_off()
+                    break
 
     def lower_arm(self):
         """
@@ -237,7 +244,7 @@ class ArmAndClaw(object):
         """
         self.motor.turn_on(-100)
         while True:
-            if self.motor.get_position() == 0:
+            if self.motor.get_position() <= 0:
                 self.motor.turn_off()
                 break
 
