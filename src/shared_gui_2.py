@@ -164,7 +164,8 @@ def handle_forward(left_entry_box, right_entry_box, mqtt_sender):
       :type  right_entry_box:  ttk.Entry
       :type  mqtt_sender:      com.MqttClient
     """
-
+    print('Forward', left_entry_box.get(), right_entry_box.get())
+    mqtt_sender.send_message('go', [left_entry_box.get(), right_entry_box.get()])
 
 
 def handle_backward(left_entry_box, right_entry_box, mqtt_sender):
@@ -175,6 +176,11 @@ def handle_backward(left_entry_box, right_entry_box, mqtt_sender):
       :type  right_entry_box:  ttk.Entry
       :type  mqtt_sender:      com.MqttClient
     """
+    print('Backward', left_entry_box.get(), right_entry_box.get())
+    left = int(left_entry_box.get()) * -1
+    right = int(right_entry_box.get()) * -1
+    mqtt_sender.send_message('go', [str(left), str(right)])
+
 
 def handle_left(left_entry_box, right_entry_box, mqtt_sender):
     """
@@ -211,6 +217,7 @@ def handle_raise_arm(mqtt_sender):
     Tells the robot to raise its Arm until its touch sensor is pressed.
       :type  mqtt_sender:  com.MqttClient
     """
+    mqtt_sender.send('Raising Arm')
 
 
 def handle_lower_arm(mqtt_sender):
