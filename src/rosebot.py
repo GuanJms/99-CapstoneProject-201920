@@ -38,6 +38,9 @@ class RoseBot(object):
         self.beacon_system = BeaconSystem()
         self.display_system = DisplaySystem()
 
+    def exit(self):
+        self.exit()
+
 
 ###############################################################################
 #    DriveSystem
