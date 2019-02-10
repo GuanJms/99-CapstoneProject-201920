@@ -40,3 +40,5 @@ class ResponderToGUIMessages(object):
         self.quit()
         self.robot.exit()
 
+    def run_with_time(self, time_entry, speed_entry):
+        self.robot.drive_system.go_straight_for_seconds(time_entry, speed_entry)
