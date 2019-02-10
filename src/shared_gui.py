@@ -160,11 +160,32 @@ def get_drive_systems_frame(window, mqtt_sender):
 
     # Construct the widgets on the frame:
     frame_label = ttk.Label(frame, text="DriveSystem")
+    speed_label = ttk.Label(frame, text="Drive Speed:")
+    time_label = ttk.Label(frame, text="Drive Time:")
+    straight_for_seconds_button = ttk.Button(frame, text="Go Straight for Seconds")
+    straight_for_inches_time_button = ttk.Button(frame, text="Go Straight for Inches (Time Based)")
+    straight_for_inches_encoder_button = ttk.Button(frame, text="Go Straight for Inches (Encoder Based)")
+    distance_label = ttk.Label(frame, text="Drive Distance:")
+    speed_entry = ttk.Entry(frame, width=8)
+    time_entry = ttk.Entry(frame, width=8)
+    distance_entry = ttk.Entry(frame, width=8)
 
     # Grid the widgets:
     frame_label.grid(row=0, column=1)
+    speed_label.grid(row=1, column=0)
+    time_label.grid(row=2, column=0)
+    distance_label.grid(row=3, column=0)
+    speed_entry.grid(row=1, column=1)
+    time_entry.grid(row=2, column=1)
+    distance_entry.grid(row=3, column=1)
+    straight_for_seconds_button.grid(row=1, column=2)
+    straight_for_inches_time_button.grid(row=2, column=2)
+    straight_for_inches_encoder_button.grid(row=3, column=2)
 
     # Set the Button callbacks:
+    straight_for_seconds_button["command"] = lambda: handle_straight_for_seconds(mqtt_sender, time_entry)
+    straight_for_inches_time_button["command"] = lambda: handle_straight_for_inches_using_time(mqtt_sender)
+    straight_for_inches_encoder_button["command"] = lambda: handle_straight_for_inches_using_encoder(mqtt_sender)
 
     return frame
 
@@ -200,6 +221,8 @@ def get_sound_system_frame(window, mqtt_sender):
 ###############################################################################
 # Handlers for Buttons in the Teleoperation frame.
 ###############################################################################
+
+
 def handle_forward(left_entry_box, right_entry_box, mqtt_sender):
     """
     Tells the robot to move using the speeds in the given entry boxes,
@@ -211,8 +234,6 @@ def handle_forward(left_entry_box, right_entry_box, mqtt_sender):
     print('forward',left_entry_box.get(),right_entry_box.get())
     mqtt_sender.send_message("go",[left_entry_box.get(),
                                    right_entry_box.get()])
-
-
 
 
 def handle_backward(left_entry_box, right_entry_box, mqtt_sender):
@@ -228,6 +249,8 @@ def handle_backward(left_entry_box, right_entry_box, mqtt_sender):
     right = -int(right_entry_box.get())
     mqtt_sender.send_message("go",[str(left),
                                    str(right)])
+
+
 def handle_left(left_entry_box, right_entry_box, mqtt_sender):
     """
     Tells the robot to move using the speeds in the given entry boxes,
@@ -242,7 +265,6 @@ def handle_left(left_entry_box, right_entry_box, mqtt_sender):
     right = int(right_entry_box.get())
     mqtt_sender.send_message("go",[str(left),
                                    str(right)])
-
 
 
 def handle_right(left_entry_box, right_entry_box, mqtt_sender):
@@ -261,8 +283,6 @@ def handle_right(left_entry_box, right_entry_box, mqtt_sender):
                                    str(right)])
 
 
-
-
 def handle_stop(mqtt_sender):
     """
     Tells the robot to stop.
@@ -271,7 +291,6 @@ def handle_stop(mqtt_sender):
     # mqtt_sender.send(exit())
     print('stop')
     mqtt_sender.send_message("stop")
-
 
 
 ###############################################################################
@@ -315,7 +334,7 @@ def handle_move_arm_to_position(arm_position_entry, mqtt_sender):
       :type  mqtt_sender:        com.MqttClient
     """
     print('move_arm_to_position')
-    mqtt_sender.send_message("move_arm_to_position",[arm_position_entry.get()])
+    mqtt_sender.send_message("move_arm_to_position", [arm_position_entry.get()])
 
 
 ###############################################################################
@@ -330,7 +349,6 @@ def handle_quit(mqtt_sender):
     mqtt_sender.send_message("quit")
 
 
-
 def handle_exit(mqtt_sender):
     """
     Tell the robot's program to stop its loop (and hence quit).
@@ -339,3 +357,36 @@ def handle_exit(mqtt_sender):
     """
     print('exit')
     mqtt_sender.send_message("exit")
+
+
+###############################################################################
+# Handlers for Buttons in the DriveSystems frame.
+###############################################################################
+def handle_straight_for_seconds(mqtt_sender, seconds_entry):
+    """
+    Tell the robot's program to stop its loop (and hence quit).
+      :type  mqtt_sender:  com.MqttClient
+      :type seconds_entry: ttk.Entry
+    """
+    print('straight_for_seconds')
+    mqtt_sender.send_message("straight_for_seconds", [seconds_entry.get()])
+
+
+def handle_straight_for_inches_using_time(mqtt_sender):
+    """
+    Tell the robot's program to stop its loop (and hence quit).
+    Then exit this program.
+      :type mqtt_sender: com.MqttClient
+    """
+    print('straight_for_inches_using_time')
+    mqtt_sender.send_message("straight_for_inches_using_time")
+
+
+def handle_straight_for_inches_using_encoder(mqtt_sender):
+    """
+    Tell the robot's program to stop its loop (and hence quit).
+    Then exit this program.
+      :type mqtt_sender: com.MqttClient
+    """
+    print('straight_for_inches_using_encoder')
+    mqtt_sender.send_message("straight_for_inches_using_encoder")
