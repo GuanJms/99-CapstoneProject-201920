@@ -146,6 +146,50 @@ def get_control_frame(window, mqtt_sender):
 
     return frame
 
+
+def get_drive_systems_frame(window, mqtt_sender):
+    """
+    Constructs and returns a frame on the given window, where the frame has
+    Button objects to exit this program and/or the robot's program (via MQTT).
+      :type  window:       ttk.Frame | ttk.Toplevel
+      :type  mqtt_sender:  com.MqttClient
+    """
+    # Construct the frame to return:
+    frame = ttk.Frame(window, padding=10, borderwidth=5, relief="ridge")
+    frame.grid()
+
+    # Construct the widgets on the frame:
+    frame_label = ttk.Label(frame, text="DriveSystem")
+
+    # Grid the widgets:
+    frame_label.grid(row=0, column=1)
+
+    # Set the Button callbacks:
+
+    return frame
+
+
+def get_sound_system_frame(window, mqtt_sender):
+    """
+    Constructs and returns a frame on the given window, where the frame has
+    Button objects to exit this program and/or the robot's program (via MQTT).
+      :type  window:       ttk.Frame | ttk.Toplevel
+      :type  mqtt_sender:  com.MqttClient
+    """
+    # Construct the frame to return:
+    frame = ttk.Frame(window, padding=10, borderwidth=5, relief="ridge")
+    frame.grid()
+
+    # Construct the widgets on the frame:
+    frame_label = ttk.Label(frame, text="SoundSystem")
+
+    # Grid the widgets:
+    frame_label.grid(row=0, column=1)
+
+    # Set the Button callbacks:
+
+    return frame
+
 ###############################################################################
 ###############################################################################
 # The following specifies, for each Button,
