@@ -200,16 +200,30 @@ def get_sound_system_frame(window, mqtt_sender):
     # Construct the frame to return:
     frame = ttk.Frame(window, padding=10, borderwidth=5, relief="ridge")
     frame.grid()
-
-    # Construct the widgets on the frame:
     frame_label = ttk.Label(frame, text="SoundSystem")
-
-    # Grid the widgets:
     frame_label.grid(row=0, column=1)
-
-    # Set the Button callbacks:
+    constructing_lable_entry_button_on_row_x(frame,1,"beep for a given of times","Beep times:" )
+    constructing_lable_entry_button_on_row_x(frame,2,"play a tone at a given frequency","Frequency:" )
+    constructing_lable_entry_button_on_row_x(frame,3,"speak a given phrase","Phrase:" )
 
     return frame
+
+def constructing_lable_entry_button_on_row_x(frame,x,feature_name, lable):
+    # Construct the widgets on the frame:
+    feature_name_lable = ttk.Label(frame,text=lable)
+    feature_name_entry = ttk.Entry(frame, width=8)
+    feature_name_button = ttk.Button(frame,text=feature_name)
+
+
+    # Grid the widgets:
+    feature_name_lable.grid(row=x, column=0)
+    feature_name_entry.grid(row=x, column=1)
+    feature_name_button.grid(row=x, column=2)
+
+    # Set the Button callbacks:
+    feature_name_button["command"] = lambda:
+
+
 
 ###############################################################################
 ###############################################################################
