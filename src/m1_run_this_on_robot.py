@@ -35,6 +35,8 @@ def real_thing():
     mqtt_reveiver = com.MqttClient(delegate)
     mqtt_reveiver.connect_to_pc()
     while True:
+        if delegate.stop_program:
+            break
         time.sleep(0.01)
 
 

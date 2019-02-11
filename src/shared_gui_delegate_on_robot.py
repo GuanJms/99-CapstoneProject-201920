@@ -15,6 +15,7 @@ class ResponderToGUIMessages(object):
             :type robot: rosebot.RoseBot
         """
         self.robot = robot
+        self.stop_program= False
 
     def go(self, left_wheel_speed, right_wheel_speed):
         left = int(left_wheel_speed)
@@ -34,8 +35,10 @@ class ResponderToGUIMessages(object):
         self.robot.arm_and_claw.move_arm_to_position(arm_position_entry)
 
     def quit(self):
-        self.stop()
-        self.robot.arm_and_claw.motor.turn_off()
+        self.stop_program = True
+        # self.stop()
+        # self.robot.arm_and_claw.motor.turn_off()
+
 
     def exit(self):
         self.quit()
