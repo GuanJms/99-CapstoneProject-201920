@@ -262,7 +262,7 @@ def play_a_tone_at_a_given_of_times(frequency, duration, given_times, mqtt_sende
 
 def speak_a_given_phrase(phrase, mqtt_sender):
     print('speak_a_given_phrase',phrase)
-    mqtt_sender.send_message("speak_a_given_phrase",phrase)
+    mqtt_sender.send_message("speak_a_given_phrase",[phrase])
 ###############################################################################
 ###############################################################################
 # The following specifies, for each Button,
