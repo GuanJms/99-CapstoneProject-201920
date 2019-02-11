@@ -396,7 +396,7 @@ def handle_straight_for_seconds(mqtt_sender, seconds_entry, speed_entry):
       :type speed_entry: ttk.Entry
     """
     print('straight_for_seconds')
-    mqtt_sender.send_message("straight_for_seconds", [seconds_entry.get(), speed_entry.get()])
+    mqtt_sender.send_message("straight_for_seconds", [int(seconds_entry.get()), int(speed_entry.get())])
 
 
 def handle_straight_for_inches_using_time(mqtt_sender, distance_entry, time_entry):
@@ -406,7 +406,7 @@ def handle_straight_for_inches_using_time(mqtt_sender, distance_entry, time_entr
       :type time_entry: ttk.Entry
     """
     print('straight_for_inches_using_time')
-    mqtt_sender.send_message("straight_for_inches_using_time", [distance_entry.get(), time_entry.get()])
+    mqtt_sender.send_message("straight_for_inches_using_time", [int(distance_entry.get()), int(time_entry.get())])
 
 
 def handle_straight_for_inches_using_encoder(mqtt_sender, distance_entry, time_entry):
@@ -416,4 +416,4 @@ def handle_straight_for_inches_using_encoder(mqtt_sender, distance_entry, time_e
       :type time_entry: ttk.Entry
     """
     print('straight_for_inches_using_encoder')
-    mqtt_sender.send_message("straight_for_inches_using_encoder", [distance_entry.get(), time_entry.get()])
+    mqtt_sender.send_message("straight_for_inches_using_encoder", [int(distance_entry.get()), int(time_entry.get())])
