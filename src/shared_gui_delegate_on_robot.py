@@ -8,6 +8,7 @@
 """
 import rosebot
 
+
 class ResponderToGUIMessages(object):
     def __init__(self, robot):
         """
@@ -40,5 +41,11 @@ class ResponderToGUIMessages(object):
         self.quit()
         self.robot.exit()
 
-    def run_with_time(self, time_entry, speed_entry):
+    def straight_for_seconds(self, time_entry, speed_entry):
         self.robot.drive_system.go_straight_for_seconds(time_entry, speed_entry)
+
+    def straight_for_inches_using_time(self, distance_entry, speed_entry):
+        self.robot.drive_system.go_straight_for_inches_using_time(distance_entry, speed_entry)
+
+    def straight_for_inches_using_encoder(self, distance_entry, speed_entry):
+        self.robot.drive_system.go_straight_for_inches_using_encoder(distance_entry, speed_entry)
