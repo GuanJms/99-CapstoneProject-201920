@@ -361,7 +361,7 @@ def handle_move_arm_to_position(arm_position_entry, mqtt_sender):
       :type  mqtt_sender:        com.MqttClient
     """
     print('move_arm_to_position')
-    mqtt_sender.send_message("move_arm_to_position", [arm_position_entry.get()])
+    mqtt_sender.send_message("move_arm_to_position", [int(arm_position_entry.get())])
 
 
 ###############################################################################
