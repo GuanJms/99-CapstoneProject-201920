@@ -56,3 +56,9 @@ class ResponderToGUIMessages(object):
     def beep_for_a_given_of_times(self,given_times):
         for k in range(given_times):
             self.robot.sound_system.beeper.beep().wait()
+
+    def play_a_tone_at_a_given_of_times(self,given_times):
+        pass
+
+    def speak_a_given_phrase(self,phrase):
+        self.robot.sound_system.speech_maker.speak(phrase)
