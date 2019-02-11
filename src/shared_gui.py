@@ -183,11 +183,9 @@ def get_drive_systems_frame(window, mqtt_sender):
     straight_for_inches_encoder_button.grid(row=3, column=2)
 
     # Set the Button callbacks:
-    straight_for_seconds_button["command"] = lambda: handle_straight_for_seconds(mqtt_sender, time_entry, speed_entry)
-    straight_for_inches_time_button["command"] = lambda: handle_straight_for_inches_using_time(mqtt_sender,
-                                                                                            distance_entry, time_entry)
-    straight_for_inches_encoder_button["command"] = lambda: handle_straight_for_inches_using_encoder(mqtt_sender,
-                                                                                            distance_entry, time_entry)
+    straight_for_seconds_button["command"] = lambda: handle_straight_for_seconds(mqtt_sender, time_entry)
+    straight_for_inches_time_button["command"] = lambda: handle_straight_for_inches_using_time(mqtt_sender)
+    straight_for_inches_encoder_button["command"] = lambda: handle_straight_for_inches_using_encoder(mqtt_sender)
 
     return frame
 
@@ -204,28 +202,40 @@ def get_sound_system_frame(window, mqtt_sender):
     frame.grid()
     frame_label = ttk.Label(frame, text="SoundSystem")
     frame_label.grid(row=0, column=1)
-    constructing_label_entry_button_on_row_x(frame,1,"beep for a given of times","Beep times:" )
-    constructing_label_entry_button_on_row_x(frame,2,"play a tone at a given frequency","Frequency:" )
-    constructing_label_entry_button_on_row_x(frame,3,"speak a given phrase","Phrase:" )
+    constructing_lable_entry_button_on_row_x(frame,1,"beep for a given of times","Beep times:" ,mqtt_sender,beep_for_a_given_of_times)
+    constructing_lable_entry_button_on_row_x(frame,2,"play a tone at a given frequency","Frequency:",mqtt_sender,play_a_tone_at_a_given_of_times)
+    constructing_lable_entry_button_on_row_x(frame,3,"speak a given phrase","Phrase:",mqtt_sender,speak_a_given_phrase )
 
     return frame
 
 
-def constructing_label_entry_button_on_row_x(frame, x, feature_name, label):
+def constructing_lable_entry_button_on_row_x(frame,x,feature_name, lable ,mqtt_sender, function):
     # Construct the widgets on the frame:
-    feature_name_label = ttk.Label(frame, text=label)
+    feature_name_lable = ttk.Label(frame,text=lable)
     feature_name_entry = ttk.Entry(frame, width=8)
-    feature_name_button = ttk.Button(frame, text=feature_name)
+    feature_name_button = ttk.Button(frame,text=feature_name)
+
 
     # Grid the widgets:
-    feature_name_label.grid(row=x, column=0)
+    feature_name_lable.grid(row=x, column=0)
     feature_name_entry.grid(row=x, column=1)
     feature_name_button.grid(row=x, column=2)
 
     # Set the Button callbacks:
-    # feature_name_button["command"] = lambda:
+    feature_name_button["command"] = lambda : function(feature_name_entry.get(),mqtt_sender)
 
 
+def beep_for_a_given_of_times(given_times, mqtt_sender):
+    print('beep_for_a_given_of_times',given_times)
+    mqtt_sender.send_message("beep_for_a_given_of_times",given_times)
+    
+def play_a_tone_at_a_given_of_times(given_times, mqtt_sender):
+    print('play_a_tone_at_a_given_of_times',given_times)
+    mqtt_sender.send_message("play_a_tone_at_a_given_of_times",given_times)
+
+def speak_a_given_phrase(phrase, mqtt_sender):
+    print('speak_a_given_phrase',phrase)
+    mqtt_sender.send_message("speak_a_given_phrase",phrase)
 ###############################################################################
 ###############################################################################
 # The following specifies, for each Button,
@@ -377,32 +387,31 @@ def handle_exit(mqtt_sender):
 ###############################################################################
 # Handlers for Buttons in the DriveSystems frame.
 ###############################################################################
-def handle_straight_for_seconds(mqtt_sender, seconds_entry, speed_entry):
+def handle_straight_for_seconds(mqtt_sender, seconds_entry):
     """
+    Tell the robot's program to stop its loop (and hence quit).
       :type  mqtt_sender:  com.MqttClient
       :type seconds_entry: ttk.Entry
-      :type speed_entry: ttk.Entry
     """
     print('straight_for_seconds')
-    mqtt_sender.send_message("straight_for_seconds", [seconds_entry.get()], [speed_entry.get()])
+    mqtt_sender.send_message("straight_for_seconds", [seconds_entry.get()])
 
 
-def handle_straight_for_inches_using_time(mqtt_sender, distance_entry, time_entry):
+def handle_straight_for_inches_using_time(mqtt_sender):
     """
+    Tell the robot's program to stop its loop (and hence quit).
+    Then exit this program.
       :type mqtt_sender: com.MqttClient
-      :type distance_entry: ttk.Entry
-      :type time_entry: ttk.Entry
     """
     print('straight_for_inches_using_time')
-    mqtt_sender.send_message("straight_for_inches_using_time", [distance_entry.get()], [time_entry.get()])
+    mqtt_sender.send_message("straight_for_inches_using_time")
 
 
-def handle_straight_for_inches_using_encoder(mqtt_sender, distance_entry, time_entry):
+def handle_straight_for_inches_using_encoder(mqtt_sender):
     """
+    Tell the robot's program to stop its loop (and hence quit).
+    Then exit this program.
       :type mqtt_sender: com.MqttClient
-      :type distance_entry: ttk.Entry
-      :type time_entry: ttk.Entry
     """
     print('straight_for_inches_using_encoder')
-    mqtt_sender.send_message("straight_for_inches_using_encoder", [distance_entry.get()], [time_entry.get()])
-
+    mqtt_sender.send_message("straight_for_inches_using_encoder")
