@@ -221,7 +221,7 @@ def constructing_lable_entry_button_on_row_x(frame,x,feature_name, lable):
     feature_name_button.grid(row=x, column=2)
 
     # Set the Button callbacks:
-    feature_name_button["command"] = lambda:
+    # feature_name_button["command"] = lambda:
 
 
 
