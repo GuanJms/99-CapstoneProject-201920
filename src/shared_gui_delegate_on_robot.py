@@ -60,8 +60,9 @@ class ResponderToGUIMessages(object):
         for k in range(int(given_times)):
             self.robot.sound_system.beeper.beep().wait()
 
-    def play_a_tone_at_a_given_of_times(self,given_times):
-        pass
+    def play_a_tone_at_a_given_of_times(self,frequency, duration, given_times):
+        for i in range(given_times):
+            self.robot.sound_system.tone_maker.play_tone(frequency,duration)
 
     def speak_a_given_phrase(self,phrase):
         self.robot.sound_system.speech_maker.speak(phrase)
