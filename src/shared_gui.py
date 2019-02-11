@@ -205,8 +205,33 @@ def get_sound_system_frame(window, mqtt_sender):
     frame_label = ttk.Label(frame, text="SoundSystem")
     frame_label.grid(row=0, column=1)
     constructing_lable_entry_button_on_row_x(frame,1,"beep for a given of times","Beep times:" ,mqtt_sender,beep_for_a_given_of_times)
-    constructing_lable_entry_button_on_row_x(frame,2,"play a tone at a given frequency","Frequency:",mqtt_sender,play_a_tone_at_a_given_of_times)
-    constructing_lable_entry_button_on_row_x(frame,3,"speak a given phrase","Phrase:",mqtt_sender,speak_a_given_phrase )
+    # constructing_lable_entry_button_on_row_x(frame,2,"play a tone at a given frequency","Frequency:",mqtt_sender,play_a_tone_at_a_given_of_times)
+
+    play_a_tone_at_a_given_of_times_lable = ttk.Label(frame, text="Frequency:")
+    play_a_tone_at_a_given_of_times_entry = ttk.Entry(frame, width=8)
+    play_a_tone_at_a_given_of_times_lable_2 = ttk.Label(frame, text="Duration for tone(s):")
+    play_a_tone_at_a_given_of_times_entry_2 = ttk.Entry(frame, width=8)
+    play_a_tone_at_a_given_of_times_lable_3 = ttk.Label(frame, text="Tone times:")
+    play_a_tone_at_a_given_of_times_entry_3 = ttk.Entry(frame, width=8)
+
+    play_a_tone_at_a_given_of_times_button = ttk.Button(frame, text="play a tone at a given frequency")
+
+    # Grid the widgets:
+    play_a_tone_at_a_given_of_times_lable.grid(row=2, column=0)
+    play_a_tone_at_a_given_of_times_entry.grid(row=2, column=1)
+    play_a_tone_at_a_given_of_times_lable_2.grid(row=2, column=2)
+    play_a_tone_at_a_given_of_times_entry_2.grid(row=2, column=3)
+    play_a_tone_at_a_given_of_times_lable_3.grid(row=3, column=0)
+    play_a_tone_at_a_given_of_times_entry_3.grid(row=3, column=1)
+    play_a_tone_at_a_given_of_times_button.grid(row=3, column=2)
+
+    # Set the Button callbacks:
+    play_a_tone_at_a_given_of_times_button["command"] = lambda: play_a_tone_at_a_given_of_times(play_a_tone_at_a_given_of_times_entry.get()
+                                                                                                ,play_a_tone_at_a_given_of_times_entry_2.get()
+                                                                                                ,play_a_tone_at_a_given_of_times_entry_3.get()
+                                                                                                , mqtt_sender)
+
+    constructing_lable_entry_button_on_row_x(frame,4,"speak a given phrase","Phrase:",mqtt_sender,speak_a_given_phrase )
 
     return frame
 
@@ -231,9 +256,9 @@ def beep_for_a_given_of_times(given_times, mqtt_sender):
     print('beep_for_a_given_of_times',given_times)
     mqtt_sender.send_message("beep_for_a_given_of_times",given_times)
     
-def play_a_tone_at_a_given_of_times(given_times, mqtt_sender):
-    print('play_a_tone_at_a_given_of_times',given_times)
-    mqtt_sender.send_message("play_a_tone_at_a_given_of_times",given_times)
+def play_a_tone_at_a_given_of_times(frequency, duration, given_times, mqtt_sender):
+    print('play_a_tone_at_a_given_of_times',int(frequency), int(duration), int(given_times))
+    mqtt_sender.send_message("play_a_tone_at_a_given_of_times",[int(frequency), int(duration), int(given_times)])
 
 def speak_a_given_phrase(phrase, mqtt_sender):
     print('speak_a_given_phrase',phrase)
