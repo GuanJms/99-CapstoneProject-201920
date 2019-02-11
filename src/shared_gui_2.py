@@ -205,46 +205,46 @@ def get_sound_system_frame(window, mqtt_sender):
     frame_label = ttk.Label(frame, text="SoundSystem")
     frame_label.grid(row=0, column=1)
 
-    constructing_lable_entry_button_on_row_x(frame,1,"beep for a given of times","Beep times:" ,mqtt_sender)
-    constructing_lable_entry_button_on_row_x(frame,2,"play a tone at a given frequency","Frequency:" ,mqtt_sender)
-    constructing_lable_entry_button_on_row_x(frame,3,"speak a given phrase","Phrase:" ,mqtt_sender)
-=======
-    constructing_label_entry_button_on_row_x(frame,1,"beep for a given of times","Beep times:" )
-    constructing_label_entry_button_on_row_x(frame,2,"play a tone at a given frequency","Frequency:" )
-    constructing_label_entry_button_on_row_x(frame,3,"speak a given phrase","Phrase:" )
->>>>>>> Stashed changes
-
-    return frame
-
-
-def constructing_label_entry_button_on_row_x(frame, x, feature_name, label):
-    # Construct the widgets on the frame:
-    feature_name_label = ttk.Label(frame, text=label)
-    feature_name_entry = ttk.Entry(frame, width=8)
-    feature_name_button = ttk.Button(frame, text=feature_name)
-
-    # Grid the widgets:
-    feature_name_label.grid(row=x, column=0)
-    feature_name_entry.grid(row=x, column=1)
-    feature_name_button.grid(row=x, column=2)
-
-    # Set the Button callbacks:
-    # feature_name_button["command"] = lambda:
-<<<<<<< Updated upstream
-""" call the function in terms of feature name: 
-    for example: in the beep for a given numebr.
-    in the constructing function, implement the sepcific function --
-    feature_name_button["command"] = lamda: feature_name(feature_name_entry.get(),mqtt_sender) # in this case feature_name_entry.get()= beep numbers
-                                                ^^^^^
-                            ("beep for a given of times" in this example)
-    
-    def beep for a given of times(given_tiems, mqtt_sender):
-        mqtt_sender.send_message("beep for a given of times",given_times)  
-    
-"""
-=======
-
->>>>>>> Stashed changes
+#     constructing_lable_entry_button_on_row_x(frame,1,"beep for a given of times","Beep times:" ,mqtt_sender)
+#     constructing_lable_entry_button_on_row_x(frame,2,"play a tone at a given frequency","Frequency:" ,mqtt_sender)
+#     constructing_lable_entry_button_on_row_x(frame,3,"speak a given phrase","Phrase:" ,mqtt_sender)
+# =======
+#     constructing_label_entry_button_on_row_x(frame,1,"beep for a given of times","Beep times:" )
+#     constructing_label_entry_button_on_row_x(frame,2,"play a tone at a given frequency","Frequency:" )
+#     constructing_label_entry_button_on_row_x(frame,3,"speak a given phrase","Phrase:" )
+# >>>>>>> Stashed changes
+#
+#     return frame
+#
+#
+# def constructing_label_entry_button_on_row_x(frame, x, feature_name, label):
+#     # Construct the widgets on the frame:
+#     feature_name_label = ttk.Label(frame, text=label)
+#     feature_name_entry = ttk.Entry(frame, width=8)
+#     feature_name_button = ttk.Button(frame, text=feature_name)
+#
+#     # Grid the widgets:
+#     feature_name_label.grid(row=x, column=0)
+#     feature_name_entry.grid(row=x, column=1)
+#     feature_name_button.grid(row=x, column=2)
+#
+#     # Set the Button callbacks:
+#     # feature_name_button["command"] = lambda:
+# <<<<<<< Updated upstream
+# """ call the function in terms of feature name:
+#     for example: in the beep for a given numebr.
+#     in the constructing function, implement the sepcific function --
+#     feature_name_button["command"] = lamda: feature_name(feature_name_entry.get(),mqtt_sender) # in this case feature_name_entry.get()= beep numbers
+#                                                 ^^^^^
+#                             ("beep for a given of times" in this example)
+#
+#     def beep for a given of times(given_tiems, mqtt_sender):
+#         mqtt_sender.send_message("beep for a given of times",given_times)
+#
+# """
+# =======
+#
+# >>>>>>> Stashed changes
 
 ###############################################################################
 ###############################################################################
