@@ -192,6 +192,35 @@ def get_drive_systems_frame(window, mqtt_sender):
     return frame
 
 
+def get_camera_frame(window, mqtt_sender):
+    """
+        Constructs and returns a frame on the given window, where the frame has
+        Button objects to exit this program and/or the robot's program (via MQTT).
+          :type  window:       ttk.Frame | ttk.Toplevel
+          :type  mqtt_sender:  com.MqttClient
+        """
+    frame = ttk.Frame(window, padding=10, borderwidth=5, relief="ridge")
+    frame.grid()
+    frame_label = ttk.Label(frame, text='Camera')
+    frame_label.grid(row=0, column=1)
+
+    clockwise_button = ttk.Button(frame, text='Spin Clockwise to Find Object')
+    counterclockwise_button = ttk.Button(frame, text='Spin CounterClockwise to Find Object')
+    speed_label = ttk.Label(frame, text='Speed')
+    speed_entry = ttk.Entry(frame)
+
+    clockwise_button.grid(row=1, column=0)
+    counterclockwise_button.grid(row=1, column=2)
+    speed_label.grid(row=2, column=1)
+    speed_entry.grid(row=3, column=1)
+
+    clockwise_button['Command'] = lambda: handle_turn_clockwise_until_sees_object(mqtt_sender, speed_entry)
+    counterclockwise_button['Command'] = lambda: handle_turn_counterclockwise_until_sees_object(mqtt_sender,
+                                                                                                speed_entry)
+
+    return frame
+
+
 def get_sound_system_frame(window, mqtt_sender):
     """
     Constructs and returns a frame on the given window, where the frame has
@@ -442,3 +471,17 @@ def handle_straight_for_inches_using_encoder(mqtt_sender, distance_entry, time_e
     """
     print('straight_for_inches_using_encoder')
     mqtt_sender.send_message("straight_for_inches_using_encoder", [int(distance_entry.get()), int(time_entry.get())])
+
+###############################################################################
+# Handlers for Buttons in the Camera frame.
+###############################################################################
+
+
+def handle_turn_clockwise_until_sees_object(mqtt_sender, speed_entry):
+    print('Turn clockwise at speed ', speed_entry, ' until object seen')
+    mqtt_sender.send_message('turn_clockwise_until_sees_object', [int(speed_entry)])
+
+
+def handle_turn_counterclockwise_until_sees_object(mqtt_sender, speed_entry):
+    print('Turn clockwise at speed ', speed_entry, ' until object seen')
+    mqtt_sender.send_message('turn_clockwise_until_sees_object', [int(speed_entry)])
