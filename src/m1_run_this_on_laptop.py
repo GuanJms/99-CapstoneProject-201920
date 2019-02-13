@@ -141,13 +141,13 @@ def individual_frame_2_tone_up_as_closer(main_frame, mqtt_sender):
     speed_entry.grid(row=3, column=1)
     start_button.grid(row=3, column=3)
 
-    start_button["command"] = lambda: handle_tone_up_with_inches(int(frequency_entry.get()),int(safe_inches_entry.get()),int(speed_entry.get()),int(k_entry),mqtt_sender)
+    start_button["command"] = lambda: handle_tone_up_with_inches(int(frequency_entry.get()),int(safe_inches_entry.get()),int(speed_entry.get()),int(k_entry.get()),mqtt_sender)
 
     return individual_frame_2_tone_up_as_closer
 
 def handle_tone_up_with_inches(frequency_entry,safe_inches_entry,speed_entry,k_entry,mqtt_sender):
     print("tone_up",frequency_entry,safe_inches_entry,speed_entry)
-    mqtt_sender.send_message("tone_up_with_inches",[frequency_entry,safe_inches_entry,k_entry,speed_entry])
+    mqtt_sender.send_message("tone_up_with_inches",[frequency_entry,safe_inches_entry,speed_entry,k_entry])
 # -----------------------------------------------------------------------------
 # Calls  main  to start the ball rolling.
 # -----------------------------------------------------------------------------
