@@ -79,7 +79,7 @@ class ResponderToGUIMessages(object):
             self.robot.sound_system.tone_maker.play_tone(frequency_entry,duration)
             frequency_entry = frequency_entry + k_entry *duration_distance/1000
             time.sleep(duration)
-            print(frequency_entry,duration,self.robot.sensor_system.ir_proximity_sensor.get_distance_in_inches()-safe_inches_entry
+            print(frequency_entry,duration,self.robot.sensor_system.ir_proximity_sensor.get_distance_in_inches()-safe_inches_entry)
             if self.robot.sensor_system.ir_proximity_sensor.get_distance_in_inches() <= safe_inches_entry:
                 self.stop()
                 break

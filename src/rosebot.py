@@ -38,8 +38,8 @@ class RoseBot(object):
         self.beacon_system = BeaconSystem()
         self.display_system = DisplaySystem()
     #
-    # def exit(self):
-    #     self.exit()
+    def exit(self):
+        self.exit()
 
 
 ###############################################################################
