@@ -66,3 +66,18 @@ class ResponderToGUIMessages(object):
 
     def speak_a_given_phrase(self,phrase):
         self.robot.sound_system.speech_maker.speak(phrase)
+
+    def tone_up_with_inches(self,frequency_entry,safe_inches_entry,speed_entry,k_entry):
+        seconds_per_inch_at_100 = 10.0  # 1 sec = 10 inches at 100 speed
+        seconds = abs((self.robot.sensor_system.ir_proximity_sensor.get_distance_in_inches()-safe_inches_entry) * seconds_per_inch_at_100 / speed_entry)
+        duration = 200
+        distance_per_sec = (speed_entry/100)*10
+        duration_distance = duration *  distance_per_sec # duration 0.2s * f/x *x/s
+        self.robot.drive_system.left_motor.turn_on(speed_entry)
+        self.robot.drive_system.right_motor.turn_on(speed_entry)
+        while True:
+            self.robot.sound_system.tone_maker.play_tone(frequency_entry,duration)
+            frequency_entry = frequency_entry + k_entry *duration_distance
+            if self.robot.sensor_system.ir_proximity_sensor.get_distance_in_inches() <= safe_inches_entry:
+                self.stop()
+                break
