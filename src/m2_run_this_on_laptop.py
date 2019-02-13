@@ -40,7 +40,7 @@ def main():
     # -------------------------------------------------------------------------
     # Sub-frames for the shared GUI that the team developed:
     # -------------------------------------------------------------------------
-    teleop_frame, arm_frame, control_frame, drive_system_frame, sound_system_frame = \
+    teleop_frame, arm_frame, control_frame, drive_system_frame, sound_system_frame, camera_frame = \
         get_shared_frames(main_frame, mqtt_sender)
 
     # -------------------------------------------------------------------------
@@ -51,7 +51,7 @@ def main():
     # -------------------------------------------------------------------------
     # Grid the frames.
     # -------------------------------------------------------------------------
-    grid_frames(teleop_frame, arm_frame, control_frame, drive_system_frame, sound_system_frame)
+    grid_frames(teleop_frame, arm_frame, control_frame, drive_system_frame, sound_system_frame, camera_frame)
 
     # -------------------------------------------------------------------------
     # The event loop:
@@ -65,16 +65,18 @@ def get_shared_frames(main_frame, mqtt_sender):
     control_frame = shared_gui.get_control_frame(main_frame, mqtt_sender)
     drive_systems_frame = shared_gui.get_drive_systems_frame(main_frame, mqtt_sender)
     sound_system_frame = shared_gui.get_sound_system_frame(main_frame, mqtt_sender)
+    camera_frame = shared_gui.get_camera_frame(main_frame, mqtt_sender)
 
-    return teleop_frame, arm_frame, control_frame, drive_systems_frame, sound_system_frame
+    return teleop_frame, arm_frame, control_frame, drive_systems_frame, sound_system_frame, camera_frame
 
 
-def grid_frames(teleop_frame, arm_frame, control_frame, drive_system_frame, sound_system_frame):
+def grid_frames(teleop_frame, arm_frame, control_frame, drive_system_frame, sound_system_frame, camera_frame):
     teleop_frame.grid(row=0, column=0)
     arm_frame.grid(row=1, column=0)
     control_frame.grid(row=2, column=0)
     drive_system_frame.grid(row=3, column=0)
-    sound_system_frame.grid(row=4, column=0)
+    sound_system_frame.grid(row=0, column=1)
+    camera_frame.grid(row=1, column=1)
 
 
 # -----------------------------------------------------------------------------
