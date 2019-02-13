@@ -19,6 +19,7 @@ def main():
     """
     # run_test_arm()
     real_thing()
+    # ir_test()
 
 #
 # def run_test_arm():
@@ -39,6 +40,13 @@ def real_thing():
         if delegate.stop_program:
             break
         time.sleep(0.01)
+
+def ir_test():
+    robot = rosebot.RoseBot()
+    while True:
+        d = robot.sensor_system.ir_proximity_sensor.get_distance_in_inches()
+        print(d,type(d))
+        time.sleep(0.5)
 
 
 # -----------------------------------------------------------------------------

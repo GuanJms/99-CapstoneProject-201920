@@ -141,7 +141,7 @@ def individual_frame_2_tone_up_as_closer(main_frame, mqtt_sender):
     speed_entry.grid(row=3, column=1)
     start_button.grid(row=3, column=3)
 
-    start_button["command"] = lambda: handle_tone_up_with_inches(int(frequency_entry.get()),int(safe_inches_entry.get()),int(speed_entry.get()),int(k_entry.get()),mqtt_sender)
+    start_button["command"] = lambda: handle_tone_up_with_inches(float(frequency_entry.get()),float(safe_inches_entry.get()),float(speed_entry.get()),float(k_entry.get()),mqtt_sender)
 
     return individual_frame_2_tone_up_as_closer
 
