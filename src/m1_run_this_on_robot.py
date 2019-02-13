@@ -29,6 +29,7 @@ def main():
 #     robot.arm_and_claw.raise_arm()
 #     robot.arm_and_claw.move_arm_to_position(0)
 
+
 def real_thing():
     robot = rosebot.RoseBot()
     delegate = shared_gui_delegate_on_robot.ResponderToGUIMessages(robot)
