@@ -478,10 +478,10 @@ def handle_straight_for_inches_using_encoder(mqtt_sender, distance_entry, time_e
 
 
 def handle_turn_clockwise_until_sees_object(mqtt_sender, speed_entry):
-    print('Turn clockwise at speed ', speed_entry, ' until object seen')
-    mqtt_sender.send_message('turn_clockwise_until_sees_object', [int(speed_entry)])
+    print('Turn clockwise at speed ', speed_entry.get(), ' until object seen')
+    mqtt_sender.send_message('turn_clockwise_until_sees_object', [int(speed_entry.get())])
 
 
 def handle_turn_counterclockwise_until_sees_object(mqtt_sender, speed_entry):
     print('Turn Counterclockwise at speed ', speed_entry, ' until object seen')
-    mqtt_sender.send_message('turn_counterclockwise_until_sees_object', [int(speed_entry)])
+    mqtt_sender.send_message('turn_counterclockwise_until_sees_object', [int(speed_entry.get())])
