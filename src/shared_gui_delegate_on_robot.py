@@ -77,12 +77,13 @@ class ResponderToGUIMessages(object):
         while True:
             self.robot.sound_system.tone_maker.play_tone(frequency_entry, duration)
             frequency_entry = frequency_entry + k_entry * (duration_distance / 1000)
-            time.sleep(duration / 1000)
             print(frequency_entry, duration,
                   self.robot.sensor_system.ir_proximity_sensor.get_distance_in_inches() - safe_inches_entry)
             if self.robot.sensor_system.ir_proximity_sensor.get_distance_in_inches() <= safe_inches_entry:
                 self.stop()
                 break
+            time.sleep(duration / 1000)
+
 
     def beep_faster(self,initial_duration_entry,safe_inches_entry,speed_entry,k_entry):
         import time
@@ -92,4 +93,48 @@ class ResponderToGUIMessages(object):
         duratin_increasing_pace =k_entry / 1000
         while True:
             self.robot.sound_system.beeper.beep()
-            time.sleep()
+            duration = duration + duratin_increasing_pace * duration
+            print(self.robot.sensor_system.ir_proximity_sensor.get_distance_in_inches()-safe_inches_entry,
+                  duration)
+            if self.robot.sensor_system.ir_proximity_sensor.get_distance_in_inches() <= safe_inches_entry:
+                self.stop()
+                break
+            time.sleep(duration)
+
+    def led_faster(self,initial_duration_entry,safe_inches_entry,speed_entry,k_entry):
+        import time
+        duration = initial_duration_entry
+        duration_dec = -1* k_entry
+        self.robot.led_system.left_led = self.robot.led_system.LED("left")
+        self.robot.led_system.right_led = self.robot.led_system.LED("Right")
+        self.robot.drive_system.left_motor.turn_on(speed_entry)
+        self.robot.drive_system.right_motor.turn_on(speed_entry)
+        while True:
+            self.robot.led_system.left_led.set_color_by_name(self.robot.led_system.left_led.GREEN)
+            time.sleep(duration)
+            self.robot.led_system.left_led.set_color_by_name(self.robot.led_system.left_led.BLACK)
+            time.sleep(duration)
+            self.robot.led_system.right_led.set_color_by_name(self.robot.led_system.right_led.GREEN)
+            time.sleep(duration)
+            self.robot.led_system.right_led.set_color_by_name(self.robot.led_system.right_led.BLACK)
+            time.sleep(duration)
+            self.robot.led_system.left_led.set_color_by_name(self.robot.led_system.left_led.GREEN)
+            self.robot.led_system.right_led.set_color_by_name(self.robot.led_system.right_led.GREEN)
+            time.sleep(duration)
+            self.robot.led_system.right_led.set_color_by_name(self.robot.led_system.right_led.BLACK)
+            self.robot.led_system.left_led.set_color_by_name(self.robot.led_system.left_led.BLACK)
+            time.sleep(duration)
+            duration = duration +duration_dec * 6*duration
+            if self.robot.sensor_system.ir_proximity_sensor.get_distance_in_inches() <= safe_inches_entry:
+                self.stop()
+                break
+
+
+
+
+
+
+
+
+
+

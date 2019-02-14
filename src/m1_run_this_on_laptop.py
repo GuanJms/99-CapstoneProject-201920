@@ -51,12 +51,14 @@ def main():
     individual_frame_1_go_straight_with_time = individual_1_frame(main_frame, mqtt_sender)
     individual_frame_2 = individual_frame_2_tone_up_as_closer(main_frame, mqtt_sender)
     individual_frame_2_1= individual_frame_2_beep_faster(main_frame, mqtt_sender)
+    individual_frame_2_2= individual_frame_2_led_faster(main_frame, mqtt_sender)
 
     # -------------------------------------------------------------------------
     # Grid the frames.
     # -------------------------------------------------------------------------
     grid_frames(teleop_frame, arm_frame, control_frame, individual_frame_1_go_straight_with_time,
-                get_drive_systems_frame, get_sound_system_frame,individual_frame_2,individual_frame_2_1)
+                get_drive_systems_frame, get_sound_system_frame,individual_frame_2,individual_frame_2_1,
+                individual_frame_2_2)
 
     # -------------------------------------------------------------------------
     # The event loop:
@@ -75,7 +77,8 @@ def get_shared_frames(main_frame, mqtt_sender):
 
 
 def grid_frames(teleop_frame, arm_frame, control_frame, individual_frame_1_go_straight_with_time,
-                get_drive_systems_frame, get_sound_system_frame,individual_frame_2,individual_frame_2_1):
+                get_drive_systems_frame, get_sound_system_frame,individual_frame_2,individual_frame_2_1,
+                individual_frame_2_2):
     teleop_frame.grid(row=0, column=0)
     arm_frame.grid(row=1, column=0)
     control_frame.grid(row=2, column=0)
@@ -84,6 +87,7 @@ def grid_frames(teleop_frame, arm_frame, control_frame, individual_frame_1_go_st
     get_sound_system_frame.grid(row=5, column=0)
     individual_frame_2.grid(row=0, column=1)
     individual_frame_2_1.grid(row=2, column=1)
+    individual_frame_2_2.grid(row=3, column=1)
 
 
 def handle_go_with_times(time_entry, speed_entry, mqtt_sender):
@@ -190,6 +194,46 @@ def individual_frame_2_beep_faster(main_frame, mqtt_sender):
 def handle_beep_faster(initial_duration_entry,safe_inches_entry,speed_entry,k_entry,mqtt_sender):
     print("beep_faster",initial_duration_entry,safe_inches_entry,speed_entry)
     mqtt_sender.send_message("beep_faster",[initial_duration_entry,safe_inches_entry,speed_entry,k_entry])
+
+
+
+def individual_frame_2_led_faster(main_frame, mqtt_sender):
+    individual_frame_2_led_faster = ttk.Frame(main_frame, padding=10, borderwidth=5, relief="ridge")
+    individual_frame_2_led_faster.grid()
+    frame_label = ttk.Label(individual_frame_2_led_faster, text="Tones frequency ups as getting closer")
+
+    initial_duration_label = ttk.Label(individual_frame_2_led_faster, text="Duration between chaing light in ms:")
+    initial_duration_entry = ttk.Entry(individual_frame_2_led_faster, width=8)
+    k_lable = ttk.Label(individual_frame_2_led_faster, text="Duration(ms) increased per sec:")
+    k_entry = ttk.Entry(individual_frame_2_led_faster, width=8)
+    safe_inches_label = ttk.Label(individual_frame_2_led_faster, text="safe inches before stop:")
+    safe_inches_entry = ttk.Entry(individual_frame_2_led_faster, width=8)
+    speed_label = ttk.Label(individual_frame_2_led_faster,text="Speed:")
+    speed_entry = ttk.Entry(individual_frame_2_led_faster,width=8)
+    speed_entry.insert(0,"100")
+    safe_inches_entry.insert(0, "2")
+    start_button = ttk.Button(individual_frame_2_led_faster, text="start")
+
+    # grid the widgets:
+    frame_label.grid(row=0, column=1)
+    initial_duration_label.grid(row=1,column=0)
+    initial_duration_entry.grid(row=1,column=1)
+    k_lable.grid(row=1,column=2)
+    k_entry.grid(row=1,column=3)
+    safe_inches_label.grid(row=2,column=0)
+    safe_inches_entry.grid(row=2,column=1)
+    speed_label.grid(row=3, column=0)
+    speed_entry.grid(row=3, column=1)
+    start_button.grid(row=3, column=3)
+
+    start_button["command"] = lambda: handle_led_faster(float(initial_duration_entry.get()),float(safe_inches_entry.get()),float(speed_entry.get()),float(k_entry.get()),mqtt_sender)
+
+    return individual_frame_2_led_faster
+
+def handle_led_faster(initial_duration_entry,safe_inches_entry,speed_entry,k_entry,mqtt_sender):
+    print("led_faster",initial_duration_entry,safe_inches_entry,speed_entry)
+    mqtt_sender.send_message("led_faster",[initial_duration_entry,safe_inches_entry,speed_entry,k_entry])
+
 # -----------------------------------------------------------------------------
 # Calls  main  to start the ball rolling.
 # -----------------------------------------------------------------------------
