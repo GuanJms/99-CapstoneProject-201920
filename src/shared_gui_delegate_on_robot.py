@@ -84,7 +84,6 @@ class ResponderToGUIMessages(object):
                 break
             time.sleep(duration / 1000)
 
-
     def beep_faster(self,initial_duration_entry,safe_inches_entry,speed_entry,k_entry):
         import time
         self.robot.drive_system.left_motor.turn_on(speed_entry)
@@ -102,7 +101,7 @@ class ResponderToGUIMessages(object):
                 break
             time.sleep(duration)
 
-    def led_faster(self,initial_duration_entry,safe_inches_entry,speed_entry,k_entry):
+    def led_faster(self, initial_duration_entry,safe_inches_entry,speed_entry,k_entry):
         import time
         duration = initial_duration_entry
         duration_dec = -1* k_entry
@@ -131,6 +130,11 @@ class ResponderToGUIMessages(object):
                 self.stop()
                 break
 
+    def turn_clockwise_until_sees_object(self, speed_entry):
+        self.robot.drive_system.spin_clockwise_until_sees_object(speed_entry, 300)
+
+    def turn_counterclockwise_until_sees_object(self, speed_entry):
+        self.robot.drive_system.spin_counterclockwise_until_sees_object(speed_entry, 300)
 
 
 

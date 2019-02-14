@@ -214,8 +214,8 @@ def get_camera_frame(window, mqtt_sender):
     speed_label.grid(row=2, column=1)
     speed_entry.grid(row=3, column=1)
 
-    clockwise_button['Command'] = lambda: handle_turn_clockwise_until_sees_object(mqtt_sender, speed_entry)
-    counterclockwise_button['Command'] = lambda: handle_turn_counterclockwise_until_sees_object(mqtt_sender,
+    clockwise_button["command"] = lambda: handle_turn_clockwise_until_sees_object(mqtt_sender, speed_entry)
+    counterclockwise_button["command"] = lambda: handle_turn_counterclockwise_until_sees_object(mqtt_sender,
                                                                                                 speed_entry)
 
     return frame
@@ -483,5 +483,5 @@ def handle_turn_clockwise_until_sees_object(mqtt_sender, speed_entry):
 
 
 def handle_turn_counterclockwise_until_sees_object(mqtt_sender, speed_entry):
-    print('Turn clockwise at speed ', speed_entry, ' until object seen')
-    mqtt_sender.send_message('turn_clockwise_until_sees_object', [int(speed_entry)])
+    print('Turn Counterclockwise at speed ', speed_entry, ' until object seen')
+    mqtt_sender.send_message('turn_counterclockwise_until_sees_object', [int(speed_entry)])
