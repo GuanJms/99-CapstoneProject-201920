@@ -52,6 +52,7 @@ def main():
     individual_frame_2 = individual_frame_2_tone_up_as_closer(main_frame, mqtt_sender)
     individual_frame_2_1= individual_frame_2_beep_faster(main_frame, mqtt_sender)
     individual_frame_2_2= individual_frame_2_led_faster(main_frame, mqtt_sender)
+    tab_playing = shared_gui.constructing_lable_entry_button_on_row_x(main_frame,5,"play tab","Tab:" ,mqtt_sender,handle_play_tab)
 
     # -------------------------------------------------------------------------
     # Grid the frames.
@@ -151,6 +152,8 @@ def individual_frame_2_tone_up_as_closer(main_frame, mqtt_sender):
 
     return individual_frame_2_tone_up_as_closer
 
+
+
 def handle_tone_up_with_inches(frequency_entry,safe_inches_entry,speed_entry,k_entry,mqtt_sender):
     print("tone_up",frequency_entry,safe_inches_entry,speed_entry)
     mqtt_sender.send_message("tone_up_with_inches",[frequency_entry,safe_inches_entry,speed_entry,k_entry])
@@ -234,7 +237,13 @@ def handle_led_faster(initial_duration_entry,safe_inches_entry,speed_entry,k_ent
     print("led_faster",initial_duration_entry,safe_inches_entry,speed_entry)
     mqtt_sender.send_message("led_faster",[initial_duration_entry,safe_inches_entry,speed_entry,k_entry])
 
-# -----------------------------------------------------------------------------
-# Calls  main  to start the ball rolling.
-# -----------------------------------------------------------------------------
+#
+# def handle_play_tab(tab, mqtt_sender):
+#     print("play_tab",tab)
+#     mqtt_sender.send_message("play_tab",[tab])
+# # -----------------------------------------------------------------------------
+# # Calls  main  to start the ball rolling.
+# # -----------------------------------------------------------------------------
+
+
 main()

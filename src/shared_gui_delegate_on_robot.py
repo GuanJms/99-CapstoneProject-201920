@@ -105,8 +105,8 @@ class ResponderToGUIMessages(object):
         import time
         duration = initial_duration_entry
         duration_dec = -1* k_entry
-        self.robot.led_system.left_led = self.robot.led_system.LED("left")
-        self.robot.led_system.right_led = self.robot.led_system.LED("Right")
+        # self.robot.led_system.left_led = self.robot.led_system.LED("left")
+        # self.robot.led_system.right_led = self.robot.led_system.LED("Right")
         self.robot.drive_system.left_motor.turn_on(speed_entry)
         self.robot.drive_system.right_motor.turn_on(speed_entry)
         while True:
@@ -136,6 +136,13 @@ class ResponderToGUIMessages(object):
 
     def turn_counterclockwise_until_sees_object(self, speed):
         self.robot.drive_system.spin_counterclockwise_until_sees_object(speed, 10000)
+
+    # def play_tab(self,tab):
+    #     lis = []
+    #     _1_ = 261.63
+    #
+    #     for i in tab:
+    #         if
 
 
 

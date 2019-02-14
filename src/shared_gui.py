@@ -286,7 +286,7 @@ def beep_for_a_given_of_times(given_times, mqtt_sender):
     mqtt_sender.send_message("beep_for_a_given_of_times",given_times)
     
 def play_a_tone_at_a_given_of_times(frequency, duration, given_times, mqtt_sender):
-    print('play_a_tone_at_a_given_of_times',int(frequency), int(duration), int(given_times))
+    print('play_a_tone_at_a_given_of_times',float(frequency), float(duration), int(given_times))
     mqtt_sender.send_message("play_a_tone_at_a_given_of_times",[float(frequency), float(duration), int(given_times)])
 
 def speak_a_given_phrase(phrase, mqtt_sender):
