@@ -130,11 +130,12 @@ class ResponderToGUIMessages(object):
                 self.stop()
                 break
 
-    def turn_clockwise_until_sees_object(self, speed_entry):
-        self.robot.drive_system.spin_clockwise_until_sees_object(speed_entry, 300)
+    def turn_clockwise_until_sees_object(self, speed):
+        self.robot.drive_system.spin_clockwise_until_sees_object(speed, 10000)
+        self.robot.drive_system.display_camera_data()
 
-    def turn_counterclockwise_until_sees_object(self, speed_entry):
-        self.robot.drive_system.spin_counterclockwise_until_sees_object(speed_entry, 300)
+    def turn_counterclockwise_until_sees_object(self, speed):
+        self.robot.drive_system.spin_counterclockwise_until_sees_object(speed, 10000)
 
 
 

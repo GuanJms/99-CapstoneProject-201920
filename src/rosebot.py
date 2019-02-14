@@ -38,6 +38,7 @@ class RoseBot(object):
         self.beacon_system = BeaconSystem()
         self.display_system = DisplaySystem()
     #
+
     def exit(self):
         self.exit()
 
@@ -283,6 +284,7 @@ class DriveSystem(object):
         print('Center: ', b.center)
         print('Width: ', b.width)
         print('Height: ', b.height)
+        print('Area: ', b.get_area())
 
     def spin_clockwise_until_sees_object(self, speed, area):
         """
@@ -294,7 +296,7 @@ class DriveSystem(object):
         self.right_motor.turn_on(-speed)
         b = self.sensor_system.camera.get_biggest_blob()
         while True:
-            if b.get_area() >= area:
+            if int(b.get_area()) >= area:
                 self.stop()
                 break
 
