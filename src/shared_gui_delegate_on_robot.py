@@ -90,10 +90,11 @@ class ResponderToGUIMessages(object):
         self.robot.drive_system.left_motor.turn_on(speed_entry)
         self.robot.drive_system.right_motor.turn_on(speed_entry)
         duration = initial_duration_entry/1000
-        duratin_increasing_pace =k_entry / 1000
+        duratin_increasing_pace =-1*k_entry / 1000
         while True:
             self.robot.sound_system.beeper.beep()
-            duration = duration + duratin_increasing_pace * duration
+            if duration + duratin_increasing_pace*duration >0:
+                duration = duration + duratin_increasing_pace * duration
             print(self.robot.sensor_system.ir_proximity_sensor.get_distance_in_inches()-safe_inches_entry,
                   duration)
             if self.robot.sensor_system.ir_proximity_sensor.get_distance_in_inches() <= safe_inches_entry:
@@ -124,7 +125,8 @@ class ResponderToGUIMessages(object):
             self.robot.led_system.right_led.set_color_by_name(self.robot.led_system.right_led.BLACK)
             self.robot.led_system.left_led.set_color_by_name(self.robot.led_system.left_led.BLACK)
             time.sleep(duration)
-            duration = duration +duration_dec * 6*duration
+            if duration + duration_dec * 6 *duration >0:
+                duration = duration +duration_dec * 6*duration
             if self.robot.sensor_system.ir_proximity_sensor.get_distance_in_inches() <= safe_inches_entry:
                 self.stop()
                 break
