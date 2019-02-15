@@ -52,7 +52,7 @@ def main():
     individual_frame_2 = individual_frame_2_tone_up_as_closer(main_frame, mqtt_sender)
     individual_frame_2_1= individual_frame_2_beep_faster(main_frame, mqtt_sender)
     individual_frame_2_2= individual_frame_2_led_faster(main_frame, mqtt_sender)
-    tab_playing = shared_gui.constructing_lable_entry_button_on_row_x(main_frame,5,"play tab","Tab:" ,mqtt_sender,handle_play_tab)
+    # tab_playing = shared_gui.constructing_lable_entry_button_on_row_x(main_frame,5,"play tab","Tab:" ,mqtt_sender,handle_play_tab)
 
     # -------------------------------------------------------------------------
     # Grid the frames.
