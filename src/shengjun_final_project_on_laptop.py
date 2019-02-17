@@ -8,10 +8,30 @@
 import mqtt_remote_method_calls as com
 import tkinter
 from tkinter import ttk
+import math as ma
 
 import shared_gui
 
 def main():
+    note_pics = {
+        "E3": (0, 40),
+        "F3": (0, 150),
+        "G3": (0, 370),
+        "A3": (80, 40),
+        "B3": (80, 260),
+        "C4": (80, 370),
+        "D4": (160, 40),
+        "E4": (160, 260),
+        "F4": (160, 370),
+        "G4": (240, 40),
+        "A4": (240, 260),
+        "B4": (320, 40),
+        "C5": (320, 150),
+        "D5": (320, 370),
+        "E5": (400, 40),
+        "F5": (400, 150),
+        "G5": (400, 370)
+    }
     mqtt_sender = com.MqttClient()
     mqtt_sender.connect_to_ev3()
 
@@ -76,7 +96,6 @@ def music_buttons(main_frame, mqtt_sender):
                 position_x = i - 3
                 position_y = j
                 button_construct(position_x,position_y,music_button_frame, mqtt_sender,button_name)
-
     return music_button_frame
 
 def button_construct(position_x,position_y,music_button_frame, mqtt_sender,button_name):
@@ -90,17 +109,36 @@ def handle_note(button_name, mqtt_sender):
     print(button_name)
     mqtt_sender.send_message("note",[button_name])
 
-def move(last_button, button_name):
+def move(last_button, button_name, note_pics):
     if last_button == None:
         last_button = 'E3'
-
     if button_name != button_name:
+        (x1, y1) = note_pics[last_button]
+        (x2, y2) = note_pics[button_name]
+        if x2-x1 > 0:
+            clockwise = 1
+            if y2-y1 != 0:
+                degree  = abs(ma.atan((x2 - x1) / (y2 - y1)))
+            if y2-y1 == 0:
+                degree = ma.pi/2
+        if x2-x1 < 0:
+            clockwise = 0
+            if y2 - y1 != 0:
+                degree = ma.pi - abs(ma.atan((x2 - x1) / (y2 - y1)))
+            if y2 - y1 == 0:
+                degree = ma.pi/2
+        if x2-x1 == 0:
+            clockwise = 3
 
-    if button_name == button_name:
-
+    return clockwise, degree, distance
 
     # after this method, its gonna give clockwise and counter-clockwise, degree, inches
-def button_real_position(k, note):
+    # clockwise 1 = clockwise yes
+    # 0 = couter-clockwise
+    # 3 = 180 degree to the opposite direction
+
+
+
 
 
 main()
