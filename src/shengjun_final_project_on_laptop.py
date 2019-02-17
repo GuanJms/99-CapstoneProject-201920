@@ -32,6 +32,27 @@ def main():
         "F5": (400, 150),
         "G5": (400, 370)
     }
+
+    fre_pics = {
+        "E3": 164.81,
+        "F3": 174.61,
+        "G3": 196.00,
+        "A3": 220.00,
+        "B3": 246.94,
+        "C4": 261.63,
+        "D4": 293.66,
+        "E4": 329.63,
+        "F4": 349.23,
+        "G4": 392.00,
+        "A4": 440.00,
+        "B4": 493.88,
+        "C5": 523.25,
+        "D5": 587.33,
+        "E5": 659.23,
+        "F5": 698.46,
+        "G5": 783.99
+    }
+
     mqtt_sender = com.MqttClient()
     mqtt_sender.connect_to_ev3()
     frobot = shared_gui_delegate_on_robot.frobot()
@@ -44,7 +65,7 @@ def main():
 
     guitar_width_input_frame = guitar_width(main_frame, mqtt_sender,frobot)
     last_button = None
-    note_frame = music_buttons(main_frame, mqtt_sender,frobot,note_pics)
+    note_frame = music_buttons(main_frame, mqtt_sender,frobot,note_pics,fre_pics)
 
     # canvas part
     canvas = tkinter.Canvas(main_frame, width=480, height=520, bg='white')
@@ -88,7 +109,7 @@ def guitar_canvas(canvas):
     canvas.create_line(0, 150, 480, 40)
 
 
-def music_buttons(main_frame, mqtt_sender,frobot,note_pics):
+def music_buttons(main_frame, mqtt_sender,frobot,note_pics,fre_pics):
     music_button_frame = ttk.Frame(main_frame, padding=10, borderwidth=5, relief="groove")
     lista = ['C', 'D', 'E', 'F', 'G', 'A', 'B']
     for i in range(3, 6, 1):
@@ -97,22 +118,23 @@ def music_buttons(main_frame, mqtt_sender,frobot,note_pics):
             if button_name != 'C3' and button_name != 'D3' and button_name != 'A5' and button_name != 'B5':
                 position_x = i - 3
                 position_y = j
-                button_construct(position_x, position_y, music_button_frame, mqtt_sender, button_name,frobot,note_pics)
+                button_construct(position_x, position_y, music_button_frame, mqtt_sender, button_name,frobot,note_pics,fre_pics)
     return music_button_frame
 
 
-def button_construct(position_x, position_y, music_button_frame, mqtt_sender, button_name, frobot,note_pics):
+def button_construct(position_x, position_y, music_button_frame, mqtt_sender, button_name, frobot,note_pics,fre_pics):
     button = ttk.Button(music_button_frame, text=button_name)
     button.grid(row=position_y, column=position_x)
-    button["command"] = lambda: handle_note(button_name, mqtt_sender, frobot,note_pics)
+    button["command"] = lambda: handle_note(button_name, mqtt_sender, frobot,note_pics,fre_pics)
     button.grid(row=position_y, column=position_x)
 
 
-def handle_note(button_name, mqtt_sender, frobot, note_pics):
-    clockwise, degree, distance = move(frobot.last_button,frobot.button_name,note_pics, frobot.k)
-    print(frobot.last_button,frobot.button_name,note_pics, frobot.k)
+def handle_note(button_name, mqtt_sender, frobot, note_pics,fre_pics):
+    frobot.button_name = button_name
+    frobot.frequency = fre_pics[button_name]
+    clockwise, degree, distance = move(frobot.last_button,frobot.button_name,note_pics, frobot.k,frobot)
     print(clockwise, degree, distance)
-    mqtt_sender.send_message("note", [clockwise, degree, distance])
+    mqtt_sender.send_message("note", [clockwise, degree, distance, frobot.frequency, frobot.last_button])
 
 
 
@@ -126,31 +148,29 @@ def handle_start_generate(k, inches, mqtt_sender, frobot):
     frobot.inches = inches
     mqtt_sender.send_message("generate", [k, inches])
 
-def move(last_button, button_name, note_pics, k):
+def move(last_button, button_name, note_pics, k,frobot):
     clockwise = None
     degree = None
     distance = None
-    if last_button == None:
-        last_button = 'E3'
-    if button_name != button_name:
+    if last_button != button_name:
         (x1, y1) = note_pics[last_button]
         (x2, y2) = note_pics[button_name]
         if x2 - x1 > 0:
             clockwise = 1
             if y2 - y1 != 0:
-                degree = abs(ma.atan((x2 - x1) / (y2 - y1)))
+                degree = ma.pi - abs(ma.atan((x2 - x1) / (y2 - y1)))
                 distance = k * ma.sqrt((y2 - y1) * (y2 - y1) + (x2 - x1) * (x2 - x1))
             if y2 - y1 == 0:
-                degree = ma.pi / 2
+                degree = ma.pi/2
                 distance = k * abs(x2 - x1)
 
         if x2 - x1 < 0:
             clockwise = -1
             if y2 - y1 != 0:
-                degree = ma.pi - abs(ma.atan((x2 - x1) / (y2 - y1)))
+                degree = abs(ma.atan((x2 - x1) / (y2 - y1)))
                 distance = k * ma.sqrt((y2 - y1) * (y2 - y1) + (x2 - x1) * (x2 - x1))
             if y2 - y1 == 0:
-                degree = ma.pi / 2
+                degree = ma.pi/2
                 distance = k * abs(x2 - x1)
         if x2 - x1 == 0:
             clockwise = 0
@@ -159,6 +179,7 @@ def move(last_button, button_name, note_pics, k):
             if y2 - y1 < 0:
                 degree = 0
             distance = k * abs(y2 - y1)
+        frobot.last_button = button_name
 
     return clockwise, degree, distance
 
@@ -187,3 +208,4 @@ note_pics = {
     "F5": (400, 150),
     "G5": (400, 370)
 }
+

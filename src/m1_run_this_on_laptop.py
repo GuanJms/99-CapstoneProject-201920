@@ -205,7 +205,7 @@ def individual_frame_2_led_faster(main_frame, mqtt_sender):
     individual_frame_2_led_faster.grid()
     frame_label = ttk.Label(individual_frame_2_led_faster, text="LED pace as getting closer")
 
-    initial_duration_label = ttk.Label(individual_frame_2_led_faster, text="Duration between changing light in ms:")
+    initial_duration_label = ttk.Label(individual_frame_2_led_faster, text="Duration between chaing light in ms:")
     initial_duration_entry = ttk.Entry(individual_frame_2_led_faster, width=8)
     k_lable = ttk.Label(individual_frame_2_led_faster, text="Duration(ms) increased per sec:")
     k_entry = ttk.Entry(individual_frame_2_led_faster, width=8)

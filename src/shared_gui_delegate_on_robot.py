@@ -138,14 +138,21 @@ class ResponderToGUIMessages(object):
     def turn_counterclockwise_until_sees_object(self, speed):
         self.robot.drive_system.spin_counterclockwise_until_sees_object(speed, 10000)
 
-    def note(self,clockwise, degree, distance):
+    def note(self,clockwise, degree, distance, frobot.frequency, frobot.last_button):
     # spin first
         self.robot.drive_system.spin_an_angle(degree,clockwise)
     # move_forward
-        self.straight_for_inches_using_encoder(distance,50)
-    #spin back
+        time = distance / 3.7245
+        self.robot.drive_system.go_straight_for_seconds(time, 50)
+    # spin back
         self.robot.drive_system.spin_an_angle(degree,-1*clockwise)
+    #play a phrase
+        self.robot.sound_system.speech_maker.speak("This is" + last_button)
     #play a tone
+        self.robot.sound_system.tone_maker.play_tone(frequency,1000)
+
+
+
 
 # move
 
@@ -159,12 +166,13 @@ class frobot(object):
         self.distance = None
         self.k = None
         self.inches = None
+        self.frequency =None
 
-def generate(frobot,k,inches,robot):
-    frobot.k = k
-    frobot.last_button = "E3"
-    frobot.inches = inches
-    put_boxes(frobot, robot)
+# def generate(frobot,k,inches,robot):
+#     frobot.k = k
+#     frobot.last_button = "E3"
+#     frobot.inches = inches
+#     put_boxes(frobot, robot)
 
 
 def put_boxes(frobot, robot):
