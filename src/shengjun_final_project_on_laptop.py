@@ -100,4 +100,7 @@ def move(last_button, button_name):
 
 
     # after this method, its gonna give clockwise and counter-clockwise, degree, inches
+def button_real_position(k, note):
+
+
 main()
