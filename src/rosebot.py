@@ -37,6 +37,7 @@ class RoseBot(object):
         self.arm_and_claw = ArmAndClaw(self.sensor_system.touch_sensor)
         self.beacon_system = BeaconSystem()
         self.display_system = DisplaySystem()
+
     #
 
     def exit(self):
@@ -51,6 +52,7 @@ class DriveSystem(object):
     Controls the robot's motion via GO and STOP methods,
         along with various methods that GO/STOP under control of a sensor.
     """
+
     # -------------------------------------------------------------------------
     # NOTE:
     #   Throughout, when going straight:
@@ -224,8 +226,8 @@ class DriveSystem(object):
         the given number of inches from the nearest object that it senses.
         Assumes that it senses an object when it starts.
         """
-        self.left_motor.turn_on(-1*speed)
-        self.right_motor.turn_on(-1*speed)
+        self.left_motor.turn_on(-1 * speed)
+        self.right_motor.turn_on(-1 * speed)
         while True:
             if self.sensor_system.ir_proximity_sensor.get_distance_in_inches() >= inches:
                 self.stop()
@@ -242,12 +244,10 @@ class DriveSystem(object):
         from the object.
         """
         while True:
-            if self.sensor_system.ir_proximity_sensor.get_distance_in_inches() < inches-delta:
-                self.go_backward_until_distance_is_greater_than(inches-delta,speed)
-            if self.sensor_system.ir_proximity_sensor.get_distance_in_inches() > inches+delta:
-                self.go_forward_until_distance_is_less_than(inches+delta,speed)
-
-
+            if self.sensor_system.ir_proximity_sensor.get_distance_in_inches() < inches - delta:
+                self.go_backward_until_distance_is_greater_than(inches - delta, speed)
+            if self.sensor_system.ir_proximity_sensor.get_distance_in_inches() > inches + delta:
+                self.go_forward_until_distance_is_less_than(inches + delta, speed)
 
     # -------------------------------------------------------------------------
     # Methods for driving that use the infrared beacon sensor.
@@ -314,12 +314,47 @@ class DriveSystem(object):
                 self.stop()
                 break
 
+    def spin_an_angle(self, angle, clockwise):
+        # 0.8860 s/rad at 50 speed
+        k = 0.8860
+        duration = k * angle
+        start_time = time.time()
+        if clockwise == 1:
+            self.left_motor.turn_on(50)
+            self.right_motor.turn_on(-50)
+            while True:
+                current_time = time.time()
+
+                if current_time-start_time >= duration:
+                    self.stop()
+                    return current_time - start_time
+        if clockwise == -1:
+            self.left_motor.turn_on(-50)
+            self.right_motor.turn_on(50)
+            while True:
+                current_time = time.time()
+
+                if current_time - start_time >= duration:
+                    self.stop()
+                    return -1*(current_time - start_time)
+
+        if clockwise == 0:
+            self.left_motor.turn_on(50)
+            self.right_motor.turn_on(-50)
+            while True:
+                current_time = time.time()
+
+                if current_time - start_time >= duration:
+                    self.stop()
+                    return current_time - start_time
+
 
 ###############################################################################
 #    ArmAndClaw
 ###############################################################################
 class ArmAndClaw(object):
     """ Controls the robot's arm and claw (which operate together). """
+
     # -------------------------------------------------------------------------
     # NOTE:
     #   A POSITIVE speed for the ArmAndClaw's motor moves the arm UP.
@@ -358,7 +393,7 @@ class ArmAndClaw(object):
         self.motor.reset_position()
         self.motor.turn_on(-100)
         while True:
-            if abs(self.motor.get_position()) >= 14.2*360:
+            if abs(self.motor.get_position()) >= 14.2 * 360:
                 self.motor.turn_off()
                 self.motor.reset_position()
                 break

@@ -7,6 +7,7 @@
   Winter term, 2018-2019.
 """
 import rosebot
+import math as ma
 
 
 class ResponderToGUIMessages(object):
@@ -84,27 +85,27 @@ class ResponderToGUIMessages(object):
                 break
             time.sleep(duration / 1000)
 
-    def beep_faster(self,initial_duration_entry,safe_inches_entry,speed_entry,k_entry):
+    def beep_faster(self, initial_duration_entry, safe_inches_entry, speed_entry, k_entry):
         import time
         self.robot.drive_system.left_motor.turn_on(speed_entry)
         self.robot.drive_system.right_motor.turn_on(speed_entry)
-        duration = initial_duration_entry/1000
-        duratin_increasing_pace =-1*k_entry / 1000
+        duration = initial_duration_entry / 1000
+        duratin_increasing_pace = -1 * k_entry / 1000
         while True:
             self.robot.sound_system.beeper.beep()
-            if duration + duratin_increasing_pace*duration >0:
+            if duration + duratin_increasing_pace * duration > 0:
                 duration = duration + duratin_increasing_pace * duration
-            print(self.robot.sensor_system.ir_proximity_sensor.get_distance_in_inches()-safe_inches_entry,
+            print(self.robot.sensor_system.ir_proximity_sensor.get_distance_in_inches() - safe_inches_entry,
                   duration)
             if self.robot.sensor_system.ir_proximity_sensor.get_distance_in_inches() <= safe_inches_entry:
                 self.stop()
                 break
             time.sleep(duration)
 
-    def led_faster(self, initial_duration_entry,safe_inches_entry,speed_entry,k_entry):
+    def led_faster(self, initial_duration_entry, safe_inches_entry, speed_entry, k_entry):
         import time
         duration = initial_duration_entry
-        duration_dec = -1* k_entry
+        duration_dec = -1 * k_entry
         # self.robot.led_system.left_led = self.robot.led_system.LED("left")
         # self.robot.led_system.right_led = self.robot.led_system.LED("Right")
         self.robot.drive_system.left_motor.turn_on(speed_entry)
@@ -124,8 +125,8 @@ class ResponderToGUIMessages(object):
             self.robot.led_system.right_led.set_color_by_name(self.robot.led_system.right_led.BLACK)
             self.robot.led_system.left_led.set_color_by_name(self.robot.led_system.left_led.BLACK)
             time.sleep(duration)
-            if duration + duration_dec * 6 *duration >0:
-                duration = duration +duration_dec * 6*duration
+            if duration + duration_dec * 6 * duration > 0:
+                duration = duration + duration_dec * 6 * duration
             if self.robot.sensor_system.ir_proximity_sensor.get_distance_in_inches() <= safe_inches_entry:
                 self.stop()
                 break
@@ -137,18 +138,37 @@ class ResponderToGUIMessages(object):
     def turn_counterclockwise_until_sees_object(self, speed):
         self.robot.drive_system.spin_counterclockwise_until_sees_object(speed, 10000)
 
-    # def play_tab(self,tab):
-    #     lis = []
-    #     _1_ = 261.63
-    #
-    #     for i in tab:
-    #         if
+    def note(self,clockwise, degree, distance):
+    # spin first
+        self.robot.drive_system.spin_an_angle(degree,clockwise)
+    # move_forward
+        self.straight_for_inches_using_encoder(distance,50)
+    #spin back
+        self.robot.drive_system.spin_an_angle(degree,-1*clockwise)
+    #play a tone
+
+# move
 
 
 
+# ----------------------------final_project------------------------------------------------------------------------------------------------
+class frobot(object):
+    def __init__(self):
+        self.button_name = None
+        self.last_button = None
+        self.distance = None
+        self.k = None
+        self.inches = None
+
+def generate(frobot,k,inches,robot):
+    frobot.k = k
+    frobot.last_button = "E3"
+    frobot.inches = inches
+    put_boxes(frobot, robot)
 
 
-
+def put_boxes(frobot, robot):
+    pass
 
 
 
