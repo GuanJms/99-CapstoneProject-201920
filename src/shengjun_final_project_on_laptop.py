@@ -132,8 +132,11 @@ def button_construct(position_x, position_y, music_button_frame, mqtt_sender, bu
 def handle_note(button_name, mqtt_sender, frobot, note_pics,fre_pics):
     frobot.button_name = button_name
     frobot.frequency = fre_pics[button_name]
-    clockwise, degree, distance = move(frobot.last_button,frobot.button_name,note_pics, frobot.k,frobot)
-    print(clockwise, degree, distance)
+    try:
+        clockwise, degree, distance = move(frobot.last_button,frobot.button_name,note_pics, frobot.k,frobot)
+    except:
+        clockwise, degree, distance = None, None, None
+    print(frobot.frequency, frobot.last_button)
     mqtt_sender.send_message("note", [clockwise, degree, distance, frobot.frequency, frobot.last_button])
 
 
