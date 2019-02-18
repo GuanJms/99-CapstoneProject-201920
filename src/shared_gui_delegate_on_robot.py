@@ -151,7 +151,7 @@ class ResponderToGUIMessages(object):
             pass
     # play a phrase
     # #play a tone
-    #     self.robot.sound_system.tone_maker.play_tone(frequency,1000)
+        self.robot.sound_system.tone_maker.play_tone(frequency,1000)
 
 
 
