@@ -59,16 +59,16 @@ def main():
     root = tkinter.Tk()
     root.title("Shengjun's CSSE 120 Final Project")
 
+
     main_frame = ttk.Frame(root, padding=10, borderwidth=5, relief="groove")
     main_frame.grid()
+    canvas = tkinter.Canvas(main_frame, width=480, height=520, bg='white')
     main_label = ttk.Label(main_frame, text='Robot Running on Guitar Platform')
-
     guitar_width_input_frame = guitar_width(main_frame, mqtt_sender,frobot)
     last_button = None
-    note_frame = music_buttons(main_frame, mqtt_sender,frobot,note_pics,fre_pics)
+    note_frame = music_buttons(canvas,main_frame, mqtt_sender,frobot,note_pics,fre_pics)
 
     # canvas part
-    canvas = tkinter.Canvas(main_frame, width=480, height=520, bg='white')
     guitar_canvas(canvas)
     # grid part
     main_label.grid(row=0, column=0)
@@ -109,7 +109,7 @@ def guitar_canvas(canvas):
     canvas.create_line(0, 150, 480, 40)
 
 
-def music_buttons(main_frame, mqtt_sender,frobot,note_pics,fre_pics):
+def music_buttons(canvas, main_frame, mqtt_sender,frobot,note_pics,fre_pics):
     music_button_frame = ttk.Frame(main_frame, padding=10, borderwidth=5, relief="groove")
     lista = ['C', 'D', 'E', 'F', 'G', 'A', 'B']
     for i in range(3, 6, 1):
@@ -118,18 +118,19 @@ def music_buttons(main_frame, mqtt_sender,frobot,note_pics,fre_pics):
             if button_name != 'C3' and button_name != 'D3' and button_name != 'A5' and button_name != 'B5':
                 position_x = i - 3
                 position_y = j
-                button_construct(position_x, position_y, music_button_frame, mqtt_sender, button_name,frobot,note_pics,fre_pics)
+                button_construct(canvas,position_x, position_y, music_button_frame, mqtt_sender, button_name,frobot,note_pics,fre_pics)
     return music_button_frame
 
 
-def button_construct(position_x, position_y, music_button_frame, mqtt_sender, button_name, frobot,note_pics,fre_pics):
+def button_construct(canvas,position_x, position_y, music_button_frame, mqtt_sender, button_name, frobot,note_pics,fre_pics):
     button = ttk.Button(music_button_frame, text=button_name)
     button.grid(row=position_y, column=position_x)
-    button["command"] = lambda: handle_note(button_name, mqtt_sender, frobot,note_pics,fre_pics)
+    button["command"] = lambda: handle_note(canvas,button_name, mqtt_sender, frobot,note_pics,fre_pics)
     button.grid(row=position_y, column=position_x)
 
 
-def handle_note(button_name, mqtt_sender, frobot, note_pics,fre_pics):
+def handle_note(canvas, button_name, mqtt_sender, frobot, note_pics,fre_pics):
+    last_button = frobot.last_button
     frobot.button_name = button_name
     frobot.frequency = fre_pics[button_name]
     try:
@@ -139,7 +140,46 @@ def handle_note(button_name, mqtt_sender, frobot, note_pics,fre_pics):
     print(frobot.frequency, frobot.last_button)
     mqtt_sender.send_message("note", [clockwise, degree, distance, frobot.frequency, frobot.last_button])
 
+    k = 0.72511
+    rotate_t0 = k * degree
+    distance_t = distance / 3.7245
 
+    changing_canvas(canvas, last_button, button_name, rotate_t0, distance_t)
+
+def changing_canvas(canvas, last_button, button_name, rotate_t0, distance_t):
+    import time
+    time.sleep(rotate_t0)
+    updates_times = distance_t / 0.05
+    #Todo """Make the last_button and button_name linked to the x0, calculate
+    #         each update the x using the angle. Then extend one point into four points and
+    #         make the area as a car"""
+    #Todo """Make the animation last for a while rather than delet need testing"""
+    x0 = 10.0
+    y0 = 30.0
+    x = [x0]
+    y = [y0]
+
+    for t in range(1, updates_times, 1):
+
+
+        # vx = 10.0  # x velocity
+        # vy = 5.0  # y velocity
+        #^^^ something with angle and time for 0.05
+
+        new_x = x[t-1] + vx
+        new_y = y[t-1] + vy
+
+        x.append(new_x)
+        y.append(new_y)
+
+    for i in range(1, updates_times, 1):
+        canvas.create_oval(x[i], fill="blue", tag='blueball')
+        canvas.update()
+
+        # Pause for 0.05 seconds, then delete the image
+        time.sleep(0.05)
+        canvas.delete('blueball')
+    time.sleep(rotate_t0)
 
 
 
@@ -160,18 +200,26 @@ def move(last_button, button_name, note_pics, k,frobot):
         (x2, y2) = note_pics[button_name]
         if x2 - x1 > 0:
             clockwise = 1
-            if y2 - y1 != 0:
+            if y2 - y1 > 0:
                 degree = ma.pi - abs(ma.atan((x2 - x1) / (y2 - y1)))
                 distance = k * ma.sqrt((y2 - y1) * (y2 - y1) + (x2 - x1) * (x2 - x1))
+            if y2 - y1< 0:
+                degree = abs(ma.atan((x2 - x1) / (y2 - y1)))
+                distance = k * ma.sqrt((y2 - y1) * (y2 - y1) + (x2 - x1) * (x2 - x1))
+
             if y2 - y1 == 0:
                 degree = ma.pi/2
                 distance = k * abs(x2 - x1)
 
         if x2 - x1 < 0:
             clockwise = -1
-            if y2 - y1 != 0:
+            if y2 - y1 > 0:
+                degree = ma.pi - abs(ma.atan((x2 - x1) / (y2 - y1)))
+                distance = k * ma.sqrt((y2 - y1) * (y2 - y1) + (x2 - x1) * (x2 - x1))
+            if y2 - y1 < 0:
                 degree = abs(ma.atan((x2 - x1) / (y2 - y1)))
                 distance = k * ma.sqrt((y2 - y1) * (y2 - y1) + (x2 - x1) * (x2 - x1))
+
             if y2 - y1 == 0:
                 degree = ma.pi/2
                 distance = k * abs(x2 - x1)
