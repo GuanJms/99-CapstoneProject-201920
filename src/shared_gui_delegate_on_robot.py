@@ -153,19 +153,35 @@ class ResponderToGUIMessages(object):
     # #play a tone
         self.robot.sound_system.tone_maker.play_tone(frequency,1000)
 
-    def generate(self, k, inches, robot):
-        self.first_box(inches)
-        self.second_box(inches)
-        self.third_box(inches)
+    def generate(self, k, inches, robot,z):
+        z = 3.7425
+        self.first_box(inches,z)
+        self.second_box(inches,z)
+        self.third_box(inches,z)
 
-    def third_box(self, inches):
+    def third_box(self, inches,z):
+        self.take_box()
+        inches_crossing = inches / 1.080324347
+        duration = inches_crossing / z
+        degree = 0.6898
+        self.robot.drive_system.spin_an_angle(ma.pi/2 + degree,1)
+        self.robot.drive_system.go_straight_for_seconds(duration,50)
+        self.robot.drive_system.spin_an_angle(ma.pi/2 - degree,1)
+        self.drop_box()
+        self.robot.drive_system.go_straight_for_seconds(1,-50)
+        self.robot.drive_system.spin_an_angle(ma.pi, -1)
+        self.robot.drive_system.go_straight_for_seconds(1,-50)
+        self.robot.drive_system.spin_an_angle(degree, -1)
+        self.robot.drive_system.go_straight_for_seconds(duration,50)
+        self.robot.drive_system.spin_an_angle(degree,-1)
 
 
-    def second_box(self, inches):
+
+    def second_box(self, inches,z):
         #take the second box and then move and put down the box
         self.take_box()
-        inches_height = inches / 48 * 44
-        duration_1 = inches_height/ 3.7245 # time for taking box and move to the position
+        inches_height = inches / 48 * 33
+        duration_1 = inches_height/ z # time for taking box and move to the position
         self.robot.drive_system.spin_an_angle(ma.pi,1)
         self.robot.drive_system.go_straight_for_seconds(duration_1,50)
         self.drop_box()
@@ -194,10 +210,10 @@ class ResponderToGUIMessages(object):
         time.sleep(0.5)
         self.move_arm_to_position(0)
 
-    def first_box(self,inches):
+    def first_box(self,inches,z):
         #take the first box and then move and put down the box
         self.take_box()
-        duration_1 = inches/ 3.7245 # time for taking box and move to the position
+        duration_1 = ((inches*5)/6)/ z # time for taking box and move to the position
         self.robot.drive_system.spin_an_angle(ma.pi/2,1)
         self.robot.drive_system.go_straight_for_seconds(duration_1,50)
         self.robot.drive_system.spin_an_angle(ma.pi/2,-1)
