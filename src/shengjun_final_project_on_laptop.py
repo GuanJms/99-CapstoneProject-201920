@@ -143,43 +143,61 @@ def handle_note(canvas, button_name, mqtt_sender, frobot, note_pics,fre_pics):
     k = 0.72511
     rotate_t0 = k * degree
     distance_t = distance / 3.7245
+    changing_canvas(canvas, last_button, button_name, rotate_t0, distance_t,note_pics)
 
-    changing_canvas(canvas, last_button, button_name, rotate_t0, distance_t)
-
-def changing_canvas(canvas, last_button, button_name, rotate_t0, distance_t):
+def changing_canvas(canvas, last_button, button_name, rotate_t0, distance_t,note_pics):
     import time
     time.sleep(rotate_t0)
-    updates_times = distance_t / 0.05
-    #Todo """Make the last_button and button_name linked to the x0, calculate
+    try:
+        canvas.delete('bluecar')
+    except:
+        pass
+    updates_times = distance_t / 0.005
+    numebers = 0
+    while True:
+        numebers = numebers + 1
+        if numebers >= updates_times:
+            break
+    #DONE """Make the last_button and button_name linked to the x0, calculate
     #         each update the x using the angle. Then extend one point into four points and
     #         make the area as a car"""
-    #Todo """Make the animation last for a while rather than delet need testing"""
-    x0 = 10.0
-    y0 = 30.0
+    #DONE """Make the animation last for a while rather than delet need testing"""
+    x0, y0 = note_pics[last_button]
+    xf, yf = note_pics[button_name]
     x = [x0]
     y = [y0]
+    z0 = x0 + 80
+    w0 = y0 + 110
+    z = [z0]
+    w = [w0]
 
-    for t in range(1, updates_times, 1):
+    vx = (xf - x0) / numebers  # x velocity
+    vy = (yf - y0) / numebers  # y velocity
+    # ^ ^ ^ something
+    # with angle and time for 0.05
 
-
-        # vx = 10.0  # x velocity
-        # vy = 5.0  # y velocity
-        #^^^ something with angle and time for 0.05
+    for t in range(1, numebers):
 
         new_x = x[t-1] + vx
         new_y = y[t-1] + vy
+        new_z = z[t-1] + vx
+        new_w = w[t-1] + vy
 
         x.append(new_x)
         y.append(new_y)
+        z.append(new_z)
+        w.append(new_w)
 
-    for i in range(1, updates_times, 1):
-        canvas.create_oval(x[i], fill="blue", tag='blueball')
+    for i in range(1, numebers):
+        # canvas.create_oval(x[i], fill="", tag='blueball')
+        canvas.create_rectangle(x[i],y[i],z[i],w[i], fill="black", tag='bluecar')
         canvas.update()
 
         # Pause for 0.05 seconds, then delete the image
-        time.sleep(0.05)
-        canvas.delete('blueball')
+        time.sleep(0.005)
+        canvas.delete('bluecar')
     time.sleep(rotate_t0)
+    canvas.create_rectangle(x[numebers-1],y[numebers-1],z[numebers-1],w[numebers-1], fill="blue", tag='bluecar')
 
 
 
