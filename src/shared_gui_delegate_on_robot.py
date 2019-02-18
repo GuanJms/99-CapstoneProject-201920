@@ -153,6 +153,63 @@ class ResponderToGUIMessages(object):
     # #play a tone
         self.robot.sound_system.tone_maker.play_tone(frequency,1000)
 
+    def generate(self, k, inches, robot):
+        self.first_box(inches)
+        self.second_box(inches)
+        self.third_box(inches)
+
+    def third_box(self, inches):
+
+
+    def second_box(self, inches):
+        #take the second box and then move and put down the box
+        self.take_box()
+        inches_height = inches / 48 * 44
+        duration_1 = inches_height/ 3.7245 # time for taking box and move to the position
+        self.robot.drive_system.spin_an_angle(ma.pi,1)
+        self.robot.drive_system.go_straight_for_seconds(duration_1,50)
+        self.drop_box()
+        self.robot.drive_system.go_straight_for_seconds(1, -50)
+        self.robot.drive_system.spin_an_angle(ma.pi, -1)
+        self.robot.drive_system.go_straight_for_seconds(1, -50)
+        self.robot.drive_system.go_straight_for_seconds(duration_1,50)
+
+
+
+    def take_box(self):
+        import time
+        self.robot.sound_system.beeper.beep()
+        while True:
+            time.sleep(0.5)
+            if self.robot.sensor_system.ir_proximity_sensor.get_distance_in_inches() <= 1:
+                self.robot.sound_system.beeper.beep()
+                time.sleep(0.5)
+                self.move_arm_to_position(2000)
+                break
+
+
+    def drop_box(self):
+        import time
+        self.robot.sound_system.beeper.beep()
+        time.sleep(0.5)
+        self.move_arm_to_position(0)
+
+    def first_box(self,inches):
+        #take the first box and then move and put down the box
+        self.take_box()
+        duration_1 = inches/ 3.7245 # time for taking box and move to the position
+        self.robot.drive_system.spin_an_angle(ma.pi/2,1)
+        self.robot.drive_system.go_straight_for_seconds(duration_1,50)
+        self.robot.drive_system.spin_an_angle(ma.pi/2,-1)
+        self.drop_box()
+        self.robot.drive_system.go_straight_for_seconds(1, -50)
+        self.robot.drive_system.spin_an_angle(ma.pi/2, -1)
+        self.robot.drive_system.go_straight_for_seconds(duration_1,50)
+        self.robot.drive_system.spin_an_angle(ma.pi/2, 1)
+        self.robot.drive_system.go_straight_for_seconds(1, 50)
+
+
+
 
 
 
@@ -170,15 +227,10 @@ class frobot(object):
         self.inches = None
         self.frequency =None
 
-# def generate(frobot,k,inches,robot):
-#     frobot.k = k
-#     frobot.last_button = "E3"
-#     frobot.inches = inches
+
+
 #     put_boxes(frobot, robot)
 
-
-def put_boxes(frobot, robot):
-    pass
 
 
 
