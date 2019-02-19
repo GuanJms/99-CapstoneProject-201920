@@ -57,6 +57,7 @@ def main():
     mqtt_sender = com.MqttClient()
     mqtt_sender.connect_to_ev3()
     frobot = shared_gui_delegate_on_robot.frobot()
+    t = shared_gui_delegate_on_robot.ResponderToGUIMessages(rosebot)
     root = tkinter.Tk()
     root.title("Shengjun's CSSE 120 Final Project")
     main_frame = ttk.Frame(root, padding=10, borderwidth=5, relief="groove")
@@ -65,7 +66,7 @@ def main():
     main_label = ttk.Label(main_frame, text='Robot Running on Guitar Platform')
     guitar_width_input_frame = guitar_width(main_frame, mqtt_sender,frobot)
     last_button = None
-    note_frame = music_buttons(canvas,main_frame, mqtt_sender,frobot,note_pics,fre_pics)
+    note_frame = music_buttons(canvas,main_frame, mqtt_sender,frobot,note_pics,fre_pics,t)
 
     # canvas part
     guitar_canvas(canvas)
@@ -107,7 +108,7 @@ def guitar_canvas(canvas):
     canvas.create_line(0, 150, 480, 40)
 
 
-def music_buttons(canvas, main_frame, mqtt_sender,frobot,note_pics,fre_pics):
+def music_buttons(canvas, main_frame, mqtt_sender,frobot,note_pics,fre_pics,t):
     music_button_frame = ttk.Frame(main_frame, padding=10, borderwidth=5, relief="groove")
     lista = ['C', 'D', 'E', 'F', 'G', 'A', 'B']
     for i in range(3, 6, 1):
@@ -116,18 +117,18 @@ def music_buttons(canvas, main_frame, mqtt_sender,frobot,note_pics,fre_pics):
             if button_name != 'C3' and button_name != 'D3' and button_name != 'A5' and button_name != 'B5':
                 position_x = i - 3
                 position_y = j
-                button_construct(canvas,position_x, position_y, music_button_frame, mqtt_sender, button_name,frobot,note_pics,fre_pics)
+                button_construct(canvas,position_x, position_y, music_button_frame, mqtt_sender, button_name,frobot,note_pics,fre_pics,t)
     return music_button_frame
 
 
-def button_construct(canvas,position_x, position_y, music_button_frame, mqtt_sender, button_name, frobot,note_pics,fre_pics):
+def button_construct(canvas,position_x, position_y, music_button_frame, mqtt_sender, button_name, frobot,note_pics,fre_pics,t):
     button = ttk.Button(music_button_frame, text=button_name)
     button.grid(row=position_y, column=position_x)
-    button["command"] = lambda: handle_note(canvas,button_name, mqtt_sender, frobot,note_pics,fre_pics)
+    button["command"] = lambda: handle_note(canvas,button_name, mqtt_sender, frobot,note_pics,fre_pics,t)
     button.grid(row=position_y, column=position_x)
 
 
-def handle_note(canvas, button_name, mqtt_sender, frobot, note_pics,fre_pics):
+def handle_note(canvas, button_name, mqtt_sender, frobot, note_pics,fre_pics, t):
     last_button = frobot.last_button
     frobot.button_name = button_name
     frobot.frequency = fre_pics[button_name]
@@ -138,8 +139,8 @@ def handle_note(canvas, button_name, mqtt_sender, frobot, note_pics,fre_pics):
     print(frobot.frequency, frobot.last_button)
     mqtt_sender.send_message("note", [clockwise, degree, distance, frobot.frequency, frobot.last_button])
 
-    rotate_t0 =  degree / shared_gui_delegate_on_robot.ResponderToGUIMessages.k_for_degrees
-    distance_t = distance / shared_gui_delegate_on_robot.ResponderToGUIMessages.t_for_inches
+    rotate_t0 =  degree / t.k_for_degrees
+    distance_t = distance / t.t_for_inches
     changing_canvas(canvas, last_button, button_name, rotate_t0, distance_t,note_pics)
 
 def changing_canvas(canvas, last_button, button_name, rotate_t0, distance_t,note_pics):

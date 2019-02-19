@@ -186,7 +186,7 @@ class ResponderToGUIMessages(object):
             if self.robot.sensor_system.ir_proximity_sensor.get_distance_in_inches() <= 1:
                 self.robot.sound_system.beeper.beep()
                 time.sleep(0.5)
-                self.move_arm_to_position(1500)
+                self.move_arm_to_position(1750)
                 break
 
 
