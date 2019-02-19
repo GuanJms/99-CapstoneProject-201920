@@ -17,6 +17,8 @@ class ResponderToGUIMessages(object):
         """
         self.robot = robot
         self.stop_program = False
+        self.t_for_inches = 12*9/27.43# to get this value do experience: ()inches/()s
+        self.k_for_degrees = 2*ma.pi*20 / 96.92# (rad)/s
 
     def go(self, left_wheel_speed, right_wheel_speed):
         left = int(left_wheel_speed)
@@ -138,57 +140,39 @@ class ResponderToGUIMessages(object):
     def turn_counterclockwise_until_sees_object(self, speed):
         self.robot.drive_system.spin_counterclockwise_until_sees_object(speed, 10000)
 
-    def note(self,clockwise, degree, distance, frequency, last_button):
+    def note(self,clockwise, degree, distance, frequency):
     # spin first
-        self.robot.drive_system.spin_an_angle(degree,clockwise)
+        self.robot.drive_system.spin_an_angle(degree,clockwise,self.k_for_degrees)
     # move_forward
-        time = distance / 3.7245
+        time = distance / self.t_for_inches # inches / (inches/s)
         self.robot.drive_system.go_straight_for_seconds(time, 50)
     # spin back
         try:
-            self.robot.drive_system.spin_an_angle(degree,-1*clockwise)
+            self.robot.drive_system.spin_an_angle(degree,-1*clockwise,self.k_for_degrees)
         except:
             pass
     # play a phrase
     # #play a tone
-        self.robot.sound_system.tone_maker.play_tone(frequency,1000)
+    #     self.robot.sound_system.tone_maker.play_tone(frequency,1000)
 
-    def generate(self, k, inches):
-        z = 3.7425
+    def generate(self,inches):
+        z = self.t_for_inches
         self.first_box(inches,z)
-        print("frist_box")
+        print("first box is ready")
         self.second_box(inches,z)
-        print("second box")
-        # self.third_box(inches,z)
-
-    def third_box(self, inches,z):
-        self.take_box()
-        inches_crossing = inches / 1.080324347
-        duration = inches_crossing / z
-        degree = 0.6898
-        self.robot.drive_system.spin_an_angle(ma.pi/2 + degree,1)
-        self.robot.drive_system.go_straight_for_seconds(duration,50)
-        self.robot.drive_system.spin_an_angle(ma.pi/2 - degree,1)
-        self.drop_box()
-        self.robot.drive_system.go_straight_for_seconds(1,-50)
-        self.robot.drive_system.spin_an_angle(ma.pi, -1)
-        self.robot.drive_system.go_straight_for_seconds(1,-50)
-        self.robot.drive_system.spin_an_angle(degree, -1)
-        self.robot.drive_system.go_straight_for_seconds(duration,50)
-        self.robot.drive_system.spin_an_angle(degree,-1)
-
+        print("second box is ready")
 
 
     def second_box(self, inches,z):
         #take the second box and then move and put down the box
         self.take_box()
-        inches_height = inches / 48 * 33
+        inches_height = (inches / 48) * 33
         duration_1 = inches_height/ z # time for taking box and move to the position
-        self.robot.drive_system.spin_an_angle(ma.pi,1)
+        self.robot.drive_system.spin_an_angle(ma.pi,1,self.k_for_degrees)
         self.robot.drive_system.go_straight_for_seconds(duration_1,50)
         self.drop_box()
         self.robot.drive_system.go_straight_for_seconds(1, -50)
-        self.robot.drive_system.spin_an_angle(ma.pi, -1)
+        self.robot.drive_system.spin_an_angle(ma.pi, -1,self.k_for_degrees)
         self.robot.drive_system.go_straight_for_seconds(1, -50)
         self.robot.drive_system.go_straight_for_seconds(duration_1,50)
 
@@ -216,14 +200,14 @@ class ResponderToGUIMessages(object):
         #take the first box and then move and put down the box
         self.take_box()
         duration_1 = ((inches*5)/6)/ z # time for taking box and move to the position
-        self.robot.drive_system.spin_an_angle(ma.pi/2,1)
+        self.robot.drive_system.spin_an_angle(ma.pi/2,1,self.k_for_degrees)
         self.robot.drive_system.go_straight_for_seconds(duration_1,50)
-        self.robot.drive_system.spin_an_angle(ma.pi/2,-1)
+        self.robot.drive_system.spin_an_angle(ma.pi/2,-1,self.k_for_degrees)
         self.drop_box()
         self.robot.drive_system.go_straight_for_seconds(1, -50)
-        self.robot.drive_system.spin_an_angle(ma.pi/2, -1)
+        self.robot.drive_system.spin_an_angle(ma.pi/2, -1,self.k_for_degrees)
         self.robot.drive_system.go_straight_for_seconds(duration_1,50)
-        self.robot.drive_system.spin_an_angle(ma.pi/2, 1)
+        self.robot.drive_system.spin_an_angle(ma.pi/2, 1,self.k_for_degrees)
         self.robot.drive_system.go_straight_for_seconds(1, 50)
 
 

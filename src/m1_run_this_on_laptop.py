@@ -11,6 +11,7 @@ import mqtt_remote_method_calls as com
 import tkinter
 from tkinter import ttk
 import shared_gui
+import time
 
 
 def main():
@@ -93,6 +94,7 @@ def grid_frames(teleop_frame, arm_frame, control_frame, individual_frame_1_go_st
 
 def handle_go_with_times(time_entry, speed_entry, mqtt_sender):
     print("go_straight_for_seconds", time_entry, speed_entry)
+
     mqtt_sender.send_message("run_with_time", [time_entry, speed_entry])
 
 

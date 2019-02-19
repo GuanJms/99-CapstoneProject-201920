@@ -314,11 +314,10 @@ class DriveSystem(object):
                 self.stop()
                 break
 
-    def spin_an_angle(self, angle, clockwise):
+    def spin_an_angle(self, angle, clockwise, k_for_degrees):
         # 0.8860 s/rad at 50 speed
         # k = 0.8860
-        k = 1/(2*math.pi*10/ 48.31)
-        duration = k * angle
+        duration = angle / k_for_degrees
         start_time = time.time()
         if clockwise == 1:
             self.left_motor.turn_on(50)

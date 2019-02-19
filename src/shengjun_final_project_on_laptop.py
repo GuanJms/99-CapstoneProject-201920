@@ -10,6 +10,7 @@ import tkinter
 from tkinter import ttk
 import math as ma
 import shared_gui_delegate_on_robot
+import rosebot
 
 
 def main():
@@ -58,8 +59,6 @@ def main():
     frobot = shared_gui_delegate_on_robot.frobot()
     root = tkinter.Tk()
     root.title("Shengjun's CSSE 120 Final Project")
-
-
     main_frame = ttk.Frame(root, padding=10, borderwidth=5, relief="groove")
     main_frame.grid()
     canvas = tkinter.Canvas(main_frame, width=480, height=520, bg='white')
@@ -90,7 +89,6 @@ def guitar_width(main_frame, mqtt_sender,frobot):
     # todo: Generate botton method
     start_generate["command"] = lambda: handle_start_generate(float(gitar_entry.get()) / 480, float(gitar_entry.get()),
                                                               mqtt_sender,frobot)
-    # k = float(gitar_entry.get()) / 480  # pic in data calculated for inches in actual
     return guitar_width_input_frame
 
 
@@ -140,12 +138,11 @@ def handle_note(canvas, button_name, mqtt_sender, frobot, note_pics,fre_pics):
     print(frobot.frequency, frobot.last_button)
     mqtt_sender.send_message("note", [clockwise, degree, distance, frobot.frequency, frobot.last_button])
 
-    k = 0.72511
-    rotate_t0 = k * degree
-    distance_t = distance / 3.7245
-    changing_canvas(canvas, last_button, button_name, rotate_t0, distance_t,note_pics,k)
+    rotate_t0 =  degree / shared_gui_delegate_on_robot.ResponderToGUIMessages.k_for_degrees
+    distance_t = distance / shared_gui_delegate_on_robot.ResponderToGUIMessages.t_for_inches
+    changing_canvas(canvas, last_button, button_name, rotate_t0, distance_t,note_pics)
 
-def changing_canvas(canvas, last_button, button_name, rotate_t0, distance_t,note_pics,k):
+def changing_canvas(canvas, last_button, button_name, rotate_t0, distance_t,note_pics):
     import time
     time.sleep(rotate_t0)
     try:
@@ -201,13 +198,13 @@ def changing_canvas(canvas, last_button, button_name, rotate_t0, distance_t,note
 
 
 
-def handle_start_generate(k, inches, mqtt_sender, frobot):
+def handle_start_generate(k, inches, mqtt_sender, frobot): # here make k into the calss
     print('Start generate guitar')
     print('Send rate to robot')
     frobot.k = k
     frobot.last_button = "E3"
     frobot.inches = inches
-    mqtt_sender.send_message("generate", [k, inches])
+    mqtt_sender.send_message("generate", [inches])
 
 def move(last_button, button_name, note_pics, k,frobot):
     clockwise = None

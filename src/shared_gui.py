@@ -312,7 +312,7 @@ def handle_forward(left_entry_box, right_entry_box, mqtt_sender):
       :type  right_entry_box:  ttk.Entry
       :type  mqtt_sender:      com.MqttClient
     """
-    print('forward',left_entry_box.get(),right_entry_box.get())
+    print('forward',left_entry_box.get(),right_entry_box.get(),time.time())
     mqtt_sender.send_message("go",[left_entry_box.get(),
                                    right_entry_box.get()])
 
@@ -370,7 +370,7 @@ def handle_stop(mqtt_sender):
       :type  mqtt_sender:  com.MqttClient
     """
     # mqtt_sender.send(exit())
-    print('stop')
+    print('stop', time.time())
     mqtt_sender.send_message("stop")
 
 
