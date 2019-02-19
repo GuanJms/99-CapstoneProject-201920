@@ -18,7 +18,7 @@ class ResponderToGUIMessages(object):
         self.robot = robot
         self.stop_program = False
         self.t_for_inches = 12*9/27.43# to get this value do experience: ()inches/()s
-        self.k_for_degrees = 2*ma.pi*20 / 96.92# (rad)/s
+        self.k_for_degrees = 2*ma.pi*20 / 106# (rad)/s
 
     def go(self, left_wheel_speed, right_wheel_speed):
         left = int(left_wheel_speed)
@@ -153,7 +153,7 @@ class ResponderToGUIMessages(object):
             pass
     # play a phrase
     # #play a tone
-    #     self.robot.sound_system.tone_maker.play_tone(frequency,1000)
+        self.robot.sound_system.tone_maker.play_tone(frequency,1000)
 
     def generate(self,inches):
         z = self.t_for_inches

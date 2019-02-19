@@ -137,7 +137,7 @@ def handle_note(canvas, button_name, mqtt_sender, frobot, note_pics,fre_pics, t)
     except:
         clockwise, degree, distance = None, None, None
     print(frobot.frequency, frobot.last_button)
-    mqtt_sender.send_message("note", [clockwise, degree, distance, frobot.frequency, frobot.last_button])
+    mqtt_sender.send_message("note", [clockwise, degree, distance, frobot.frequency])
 
     rotate_t0 =  degree / t.k_for_degrees
     distance_t = distance / t.t_for_inches
