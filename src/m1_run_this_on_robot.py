@@ -19,9 +19,10 @@ def main():
     """
     # spin()
     # run_test_arm()
-    real_thing()
+    # real_thing()
     # ir_test()
     # go()
+    color_rec()
 
 #
 # def run_test_arm():
@@ -31,6 +32,16 @@ def main():
 #     robot.arm_and_claw.lower_arm()
 #     robot.arm_and_claw.raise_arm()
 #     robot.arm_and_claw.move_arm_to_position(0)
+
+def color_rec():
+    robot = rosebot.RoseBot()
+
+    while True:
+        if robot.sensor_system.camera.mode == 'SIG1' :
+            print('SIG1 yes')
+        else:
+            print('Nope')
+        time.sleep(0.5)
 
 def go():
     robot = rosebot.RoseBot()

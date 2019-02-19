@@ -18,7 +18,7 @@ class ResponderToGUIMessages(object):
         self.robot = robot
         self.stop_program = False
         self.t_for_inches = 12/3.35 # to get this value do experience: ()inches/()s
-        self.k_for_degrees = 2*ma.pi*20 / 106# (rad)/s
+        self.k_for_degrees = 2*ma.pi*20 / 109# (rad)/s
 
     def go(self, left_wheel_speed, right_wheel_speed):
         left = int(left_wheel_speed)
@@ -159,8 +159,8 @@ class ResponderToGUIMessages(object):
         z = self.t_for_inches
         self.first_box(inches,z)
         print("first box is ready")
-        self.second_box(inches,z)
-        print("second box is ready")
+        # self.second_box(inches,z)
+        # print("second box is ready")
 
 
     def second_box(self, inches,z):
