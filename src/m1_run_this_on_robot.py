@@ -19,9 +19,9 @@ def main():
     """
     # spin()
     # run_test_arm()
-    # real_thing()
+    real_thing()
     # ir_test()
-    go()
+    # go()
 
 #
 # def run_test_arm():
@@ -34,7 +34,7 @@ def main():
 
 def go():
     robot = rosebot.RoseBot()
-    robot.drive_system.go_straight_for_seconds(3.25, 50)
+    robot.drive_system.go_straight_for_seconds(3.35, 50)
 
 def spin():
     robot = rosebot.RoseBot()

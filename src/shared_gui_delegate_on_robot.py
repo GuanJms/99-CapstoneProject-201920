@@ -17,7 +17,7 @@ class ResponderToGUIMessages(object):
         """
         self.robot = robot
         self.stop_program = False
-        self.t_for_inches = 12*9/27.43# to get this value do experience: ()inches/()s
+        self.t_for_inches = 12/3.35 # to get this value do experience: ()inches/()s
         self.k_for_degrees = 2*ma.pi*20 / 106# (rad)/s
 
     def go(self, left_wheel_speed, right_wheel_speed):
