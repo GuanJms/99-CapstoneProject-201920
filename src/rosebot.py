@@ -317,7 +317,7 @@ class DriveSystem(object):
     def spin_an_angle(self, angle, clockwise):
         # 0.8860 s/rad at 50 speed
         # k = 0.8860
-        k = 0.72511
+        k = 1/(2*math.pi*10/ 48.31)
         duration = k * angle
         start_time = time.time()
         if clockwise == 1:

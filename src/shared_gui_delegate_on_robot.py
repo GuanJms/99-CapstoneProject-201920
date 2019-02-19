@@ -153,11 +153,13 @@ class ResponderToGUIMessages(object):
     # #play a tone
         self.robot.sound_system.tone_maker.play_tone(frequency,1000)
 
-    def generate(self, k, inches, robot,z):
+    def generate(self, k, inches):
         z = 3.7425
         self.first_box(inches,z)
+        print("frist_box")
         self.second_box(inches,z)
-        self.third_box(inches,z)
+        print("second box")
+        # self.third_box(inches,z)
 
     def third_box(self, inches,z):
         self.take_box()
@@ -200,7 +202,7 @@ class ResponderToGUIMessages(object):
             if self.robot.sensor_system.ir_proximity_sensor.get_distance_in_inches() <= 1:
                 self.robot.sound_system.beeper.beep()
                 time.sleep(0.5)
-                self.move_arm_to_position(2000)
+                self.move_arm_to_position(1500)
                 break
 
 
