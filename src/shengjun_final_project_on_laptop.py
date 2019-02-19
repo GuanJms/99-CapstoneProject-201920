@@ -143,9 +143,9 @@ def handle_note(canvas, button_name, mqtt_sender, frobot, note_pics,fre_pics):
     k = 0.72511
     rotate_t0 = k * degree
     distance_t = distance / 3.7245
-    changing_canvas(canvas, last_button, button_name, rotate_t0, distance_t,note_pics)
+    changing_canvas(canvas, last_button, button_name, rotate_t0, distance_t,note_pics,k)
 
-def changing_canvas(canvas, last_button, button_name, rotate_t0, distance_t,note_pics):
+def changing_canvas(canvas, last_button, button_name, rotate_t0, distance_t,note_pics,k):
     import time
     time.sleep(rotate_t0)
     try:
