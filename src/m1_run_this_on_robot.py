@@ -73,12 +73,16 @@ def color():
 
 def go():
     robot = rosebot.RoseBot()
-    robot.drive_system.go_straight_for_seconds(3.35, 50)
+    robot.drive_system.go_straight_for_seconds(3.4, 50)
 
 
 def spin():
     robot = rosebot.RoseBot()
-    robot.drive_system.spin_an_angle(math.pi / 2, 1, 2 * math.pi * 20 / 106)
+    robot.drive_system.spin_an_angle(math.pi / 2, 1, 2 * math.pi * 20 / 110)
+    robot.drive_system.go_straight_for_seconds(12,50)
+    time.sleep(0.5)
+    robot.drive_system.go_straight_for_seconds(12,-50)
+
 
 
 def real_thing():
