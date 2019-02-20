@@ -8,6 +8,7 @@
 """
 import rosebot
 import math as ma
+import time
 
 
 class ResponderToGUIMessages(object):
@@ -156,10 +157,19 @@ class ResponderToGUIMessages(object):
         self.robot.sound_system.tone_maker.play_tone(frequency,1000)
 
     def generate(self,inches):
+        self.robot.sound_system.speech_maker.speak('Put me on the paper.')
+        while True:
+            if self.robot.sensor_system.color_sensor.get_color() == 1:
+                self.robot.sound_system.speech_maker.speak('This is a balck paper.')
+            if self.robot.sensor_system.color_sensor.get_color() == 6:
+                self.robot.sound_system.speech_maker.speak('This is a white paper.')
+            if self.robot.sensor_system.color_sensor.get_color() == 4:
+                break
+            time.sleep(0.2)
         z = self.t_for_inches
         self.first_box(inches,z)
         print("first box is ready")
-        # self.second_box(inches,z)
+        self.second_box(inches,z)
         # print("second box is ready")
 
 
