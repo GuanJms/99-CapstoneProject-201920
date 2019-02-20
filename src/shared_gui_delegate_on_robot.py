@@ -165,7 +165,7 @@ class ResponderToGUIMessages(object):
                 self.robot.sound_system.speech_maker.speak('This is a white paper.')
             if self.robot.sensor_system.color_sensor.get_color() == 4:
                 break
-            time.sleep(0.2)
+            time.sleep(3)
         z = self.t_for_inches
         self.first_box(inches,z)
         print("first box is ready")
