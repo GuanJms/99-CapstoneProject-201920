@@ -150,7 +150,7 @@ def changing_canvas(canvas, last_button, button_name, rotate_t0, distance_t,note
         canvas.delete('bluecar')
     except:
         pass
-    updates_times = distance_t / 0.005
+    updates_times = distance_t * 60
     numebers = 0
     while True:
         numebers = numebers + 1
