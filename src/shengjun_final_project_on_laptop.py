@@ -192,7 +192,7 @@ def changing_canvas(canvas, last_button, button_name, rotate_t0, distance_t,note
         canvas.update()
 
         # Pause for 0.05 seconds, then delete the image
-        time.sleep(0.011)
+        time.sleep(0.015)
         canvas.delete('bluecar')
     time.sleep(rotate_t0)
     canvas.create_rectangle(x[numebers-1],y[numebers-1],z[numebers-1],w[numebers-1], fill="blue", tag='bluecar')
