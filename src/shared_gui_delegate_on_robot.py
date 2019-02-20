@@ -221,16 +221,23 @@ class ResponderToGUIMessages(object):
         self.robot.drive_system.go_straight_for_seconds(1, 50)
 
     def agv(self):
-        self.robot.drive_system.go_straight_for_seconds(10, 50)
+        self.robot.drive_system.go_straight_for_seconds(5, 100)
         # self.robot.drive_system.go_forward_until_distance_is_less_than(2, 50)
+        time.sleep(1)
         self.robot.arm_and_claw.raise_arm()
         time.sleep(1)
         self.robot.drive_system.left_motor.turn_on(50)
         self.robot.drive_system.right_motor.turn_on(-50)
-        time.sleep(8)
+        time.sleep(4)
         self.robot.drive_system.stop()
         time.sleep(1)
-        self.robot.drive_system.go_straight_for_inches_using_time(90, 50)
+        self.robot.drive_system.go_straight_for_inches_using_time(95, 100)
+        time.sleep(1)
+        self.robot.drive_system.left_motor.turn_on(-50)
+        self.robot.drive_system.right_motor.turn_on(50)
+        time.sleep(2)
+        self.robot.drive_system.stop()
+        time.sleep(1)
         self.robot.arm_and_claw.lower_arm()
 
 # move
