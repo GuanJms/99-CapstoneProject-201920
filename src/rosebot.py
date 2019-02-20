@@ -130,6 +130,7 @@ class DriveSystem(object):
         self.left_motor.reset_position()
         self.right_motor.reset_position()
 
+
     # -------------------------------------------------------------------------
     # Methods for driving that use the color sensor.
     # -------------------------------------------------------------------------
@@ -442,7 +443,7 @@ class SensorSystem(object):
         self.touch_sensor = TouchSensor(1)
         self.color_sensor = ColorSensor(3)
         self.ir_proximity_sensor = InfraredProximitySensor(4)
-        self.camera = Camera()
+        # self.camera = Camera()
         # self.ir_beacon_sensor = InfraredBeaconSensor(4)
         # self.beacon_system =
         # self.display_system =
@@ -751,56 +752,56 @@ class InfraredBeaconSensor(object):
 ###############################################################################
 # Camera
 ###############################################################################
-class Camera(object):
-    """
-    A class for a Pixy camera.
-    Use the   PixyMon    program to initialize the camera's firmware.
-    Download the program from the    Windows   link at:
-        http://www.cmucam.org/projects/cmucam5/wiki/Latest_release
-
-    Learn how to use the Pixy camera's "color signatures" to recognize objects
-        at: http://www.cmucam.org/projects/cmucam5/wiki/Teach_Pixy_an_object.
-    """
-
-    def __init__(self, port=ev3.INPUT_2):
-        try:
-            self.low_level_camera = ev3.Sensor(port, driver_name="pixy-lego")
-        except AssertionError:
-            print("Is the camera plugged into port 2?")
-            print("If that is not the problem, then check whether the camera")
-            print("has gotten into 'Arduino mode', as follows:")
-            print("  In PixyMon, select the gear (Configure) icon,")
-            print("  then look for a tab that has 'Arduino' on its page.")
-            print("  Make sure it says 'Lego' and not 'Arduino'.")
-            print("Note: Only some of the cameras have this option;")
-            print("the others are automatically OK in this regard.")
-        self.set_signature("SIG1")
-
-    def set_signature(self, signature_name):
-        self.low_level_camera.mode = signature_name
-
-    def get_biggest_blob(self):
-        """
-        A "blob" is a collection of connected pixels that are all in the color
-        range specified by a color "signature".  A Blob object stores the Point
-        that is the center (actually, centroid) of the blob along with the
-        width and height of the blob.  For a Pixy camera, the x-coordinate is
-        between 0 and 319 (0 left, 319 right) and the y-coordinate is between
-        0 and 199 (0 TOP, 199 BOTTOM).  See the Blob class below.
-
-        A Camera returns the largest Blob whose pixels fall within the Camera's
-        current color signature.  A Blob whose width and height are zero
-        indicates that no large enough object within the current color signature
-        was visible.
-
-        The Camera's color signature defaults to "SIG1", which is the color
-        signature set by selecting the RED light when training the Pixy camera.
-        """
-        return Blob(Point(self.low_level_camera.value(1),
-                          self.low_level_camera.value(2)),
-                    self.low_level_camera.value(3),
-                    self.low_level_camera.value(4))
-
+# class Camera(object):
+#     """
+#     A class for a Pixy camera.
+#     Use the   PixyMon    program to initialize the camera's firmware.
+#     Download the program from the    Windows   link at:
+#         http://www.cmucam.org/projects/cmucam5/wiki/Latest_release
+#
+#     Learn how to use the Pixy camera's "color signatures" to recognize objects
+#         at: http://www.cmucam.org/projects/cmucam5/wiki/Teach_Pixy_an_object.
+#     """
+#
+#     def __init__(self, port=ev3.INPUT_2):
+#         try:
+#             self.low_level_camera = ev3.Sensor(port, driver_name="pixy-lego")
+#         except AssertionError:
+#             print("Is the camera plugged into port 2?")
+#             print("If that is not the problem, then check whether the camera")
+#             print("has gotten into 'Arduino mode', as follows:")
+#             print("  In PixyMon, select the gear (Configure) icon,")
+#             print("  then look for a tab that has 'Arduino' on its page.")
+#             print("  Make sure it says 'Lego' and not 'Arduino'.")
+#             print("Note: Only some of the cameras have this option;")
+#             print("the others are automatically OK in this regard.")
+#         self.set_signature("SIG1")
+#
+#     def set_signature(self, signature_name):
+#         self.low_level_camera.mode = signature_name
+#
+#     def get_biggest_blob(self):
+#         """
+#         A "blob" is a collection of connected pixels that are all in the color
+#         range specified by a color "signature".  A Blob object stores the Point
+#         that is the center (actually, centroid) of the blob along with the
+#         width and height of the blob.  For a Pixy camera, the x-coordinate is
+#         between 0 and 319 (0 left, 319 right) and the y-coordinate is between
+#         0 and 199 (0 TOP, 199 BOTTOM).  See the Blob class below.
+#
+#         A Camera returns the largest Blob whose pixels fall within the Camera's
+#         current color signature.  A Blob whose width and height are zero
+#         indicates that no large enough object within the current color signature
+#         was visible.
+#
+#         The Camera's color signature defaults to "SIG1", which is the color
+#         signature set by selecting the RED light when training the Pixy camera.
+#         """
+#         return Blob(Point(self.low_level_camera.value(1),
+#                           self.low_level_camera.value(2)),
+#                     self.low_level_camera.value(3),
+#                     self.low_level_camera.value(4))
+#
 
 ###############################################################################
 # Point (for the Camera class, as well as for general purposes.
